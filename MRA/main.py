@@ -1,5 +1,6 @@
 import systemFunc
 import biseccion
+import posFalsa
 import tkinter as tk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -22,12 +23,12 @@ resultFrame = tk.Frame(leftFrame)
 resultFrame.pack(fill="x")
 
 resultLabel = tk.Label(resultFrame, text="Raíz: ", font=("Segoe UI", 14, "bold"))
-resultLabel.pack()
+resultLabel.pack(pady=15)
 
 ## Variables frame
 
 varFrame = tk.Frame(leftFrame)
-varFrame.pack()
+varFrame.pack(pady=15)
 
 mValue = tk.StringVar(value="1.2")
 kValue = tk.StringVar(value="350")
@@ -36,12 +37,12 @@ tk.Label(varFrame, text="Ingrese valor de masa (m)").grid(row=0, column=0, padx=
 tk.Entry(varFrame, textvariable=mValue, font=("Segoe UI", 12)).grid(row=0, column=1, pady=5)
 
 tk.Label(varFrame, text="Ingrese constante de rigidez (k)").grid(row=1, column=0, padx=10, pady=5)
-tk.Entry(varFrame, textvariable=kValue, font=("Segoe UI", 12)).grid(row=1, column=1, pady=10)
+tk.Entry(varFrame, textvariable=kValue, font=("Segoe UI", 12)).grid(row=1, column=1, pady=5)
 
 ## Parameters frame
 
 paramsFrame = tk.Frame(leftFrame)
-paramsFrame.pack()
+paramsFrame.pack(pady=15)
 
 maxIterEntry = tk.StringVar(value="20")
 toleranceEntry = tk.StringVar(value="1e-5")
@@ -58,21 +59,16 @@ tk.Label(paramsFrame, text="Límite inferior").grid(row=2, column=0, padx=10, pa
 tk.Entry(paramsFrame, textvariable=limInfEntry, font=("Segoe UI", 12)).grid(row=2, column=1, pady=5)
 
 tk.Label(paramsFrame, text="Límite superior").grid(row=3, column=0, padx=10, pady=5)
-tk.Entry(paramsFrame, textvariable=limSupEntry, font=("Segoe UI", 12)).grid(row=3, column=1, pady=10)
+tk.Entry(paramsFrame, textvariable=limSupEntry, font=("Segoe UI", 12)).grid(row=3, column=1, pady=5)
 
 ## Methods frame
 
 methodFrame = tk.Frame(leftFrame)
-methodFrame.pack()
-
-maxIter = int(maxIterEntry.get())
-tolerance = float(toleranceEntry.get())
-limInf = float(limInfEntry.get())
-limSup = float(limSupEntry.get())
+methodFrame.pack(pady=15)
 
 canvas_widget = None
 
-def runBisect():
+def runNumericalMethod(methodFunc, methodName):
     global canvas_widget
 
     maxIter = int(maxIterEntry.get())
@@ -83,41 +79,54 @@ def runBisect():
     b = 0
     k = float(kValue.get())
 
-    result = biseccion.bisect(maxIter, tolerance, limInf, limSup, m, b, k)
-    
+    result = methodFunc(maxIter, tolerance, limInf, limSup, m, b, k)
+
     if result is None:
         resultLabel.config(text="No hay cambio de signo en el intervalo")
         return
-
+    
     try:
         root, errors, iters = result
+        last_error = errors[-1] if errors else 0
+        last_iter = iters[-1] if iters else 0
+        resultLabel.config(text=f"Raíz: {root:.6f} ± {last_error:.2e}   (Iteraciones): {last_iter}")
+
+        updateGraph(iters, errors)
+
     except Exception:
         if isinstance(result, (int, float)):
-            resultLabel.config(text=f"Raíz: {result}")
+            resultLabel.config(text=f"Raíz: {result:.6f}")
         else:
-            resultLabel.config(text="Resultado inesperado de bisección")
-        return
+            resultLabel.config(text=f"Resultado inesperado de {methodName}")
 
-    last_error = errors[-1] if errors else 0
-    resultLabel.config(text=f"Raíz: {root} ± {last_error}   (Iteraciones: {iters[-1] if iters else 0})")
+def updateGraph(iters, errors):
+    global canvas_widget
 
     if canvas_widget is not None:
         canvas_widget.get_tk_widget().destroy()
         canvas_widget = None
-
+    
     fig = Figure(figsize=(5.5, 4), dpi=100)
     ax = fig.add_subplot(111)
-    ax.plot(iters, errors)
-    ax.set_title("Error vs Iteración")
-    ax.set_xlabel("Iteración")
-    ax.set_ylabel("Error")
-    ax.grid(True)
+    ax.plot(iters, errors, marker='o', linestyle='-', linewidth=2, markersize=4)
+    ax.set_title("Error vs Iteración", fontsize=12, fontweight='bold')
+    ax.set_xlabel("Iteración", fontsize=10)
+    ax.set_ylabel("Error", fontsize=10)
+    ax.grid(True, alpha=0.3)
+    ax.set_yscale('log')
+    
+    fig.tight_layout()
 
     canvas_widget = FigureCanvasTkAgg(fig, master=graphFrame)
     canvas_widget.draw()
     canvas_widget.get_tk_widget().pack(fill="both", expand=True)
 
+runBisect = lambda: runNumericalMethod(biseccion.bisect, "bisección")
+runFalsePos = lambda: runNumericalMethod(posFalsa.falsePos, "posición falsa")
+
 bisectButton = tk.Button(methodFrame, text="Bisección", command=runBisect).grid(row=0, column=0)
+
+falsePosButton = tk.Button(methodFrame, text="Posición falsa", command=runFalsePos).grid(row=0, column=1)
 
 # RIGHT PANEL
 
