@@ -1,6 +1,7 @@
 import systemFunc
 import biseccion
 import posFalsa
+import newtonRaphson
 import tkinter as tk
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
@@ -55,7 +56,7 @@ tk.Entry(paramsFrame, textvariable=maxIterEntry, font=("Segoe UI", 12)).grid(row
 tk.Label(paramsFrame, text="Tolerancia de error").grid(row=1, column=0, padx=10, pady=5)
 tk.Entry(paramsFrame, textvariable=toleranceEntry, font=("Segoe UI", 12)).grid(row=1, column=1, pady=5)
 
-tk.Label(paramsFrame, text="Límite inferior").grid(row=2, column=0, padx=10, pady=5)
+tk.Label(paramsFrame, text="Límite inferior o Valor inicial").grid(row=2, column=0, padx=10, pady=5)
 tk.Entry(paramsFrame, textvariable=limInfEntry, font=("Segoe UI", 12)).grid(row=2, column=1, pady=5)
 
 tk.Label(paramsFrame, text="Límite superior").grid(row=3, column=0, padx=10, pady=5)
@@ -123,10 +124,13 @@ def updateGraph(iters, errors):
 
 runBisect = lambda: runNumericalMethod(biseccion.bisect, "bisección")
 runFalsePos = lambda: runNumericalMethod(posFalsa.falsePos, "posición falsa")
+runNewtonRaphson = lambda: runNumericalMethod(newtonRaphson.newtonRaphson, "Newton-Raphson")
 
 bisectButton = tk.Button(methodFrame, text="Bisección", command=runBisect).grid(row=0, column=0)
 
 falsePosButton = tk.Button(methodFrame, text="Posición falsa", command=runFalsePos).grid(row=0, column=1)
+
+newRaphButton = tk.Button(methodFrame, text="Newton-Raphson", command=runNewtonRaphson).grid(row=0, column=3)
 
 # RIGHT PANEL
 
