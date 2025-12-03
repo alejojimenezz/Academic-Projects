@@ -16,7 +16,7 @@ mainWindow.geometry()
 leftFrame = tk.Frame(mainWindow)
 leftFrame.grid(row=0, column=0, padx=5, pady=5)
 
-tk.Label(leftFrame, text="Left frame").pack()
+# tk.Label(leftFrame, text="Left frame").pack()
 
 ## Result Frame
 
@@ -137,7 +137,7 @@ newRaphButton = tk.Button(methodFrame, text="Newton-Raphson", command=runNewtonR
 graphFrame = tk.Frame(mainWindow)
 graphFrame.grid(row=0, column=1, padx=5, pady=5)
 
-tk.Label(graphFrame, text="Right frame").pack()
+# tk.Label(graphFrame, text="Right frame").pack()
 
 mainWindow.grid_rowconfigure(0, weight=1)
 mainWindow.grid_columnconfigure(0, weight=1)
