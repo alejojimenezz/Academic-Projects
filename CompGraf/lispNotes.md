@@ -6,6 +6,14 @@
 > [!TIP]
 > Presionando F2 muestra el historial de la linea de comandos de AutoCAD
 
+- [X] Buscar programa de hacer mapas mentales
+- [ ] Hacer reloj análogo/digital propio
+- [ ] Documentar el proceso de realización del reloj
+- [X] Como tomar hora del sistema
+- [ ] Agregar `_` a comandos
+
+---
+
 ## Guardar una variable
 
 ```lisp
@@ -77,7 +85,50 @@ Para ver las propiedades de algun elemento dibujado, se usa el comando `list`
 
 ***
 
-- [ ] Buscar programa de hacer mapas mentales
-- [ ] Hacer reloj análogo/digital propio
-- [ ] Documentar el proceso de realización del reloj
-- [ ] Como tomar hora del sistema
+## Obtener fecha y hora
+
+Con el comando `cdate` se puede obtener la fecha y hora actual del equipo en el formato `AAAAMMDD.HHMMSScseg`.
+
+```lisp
+(setq fecha_hora (getvar "cdate"))
+```
+
+### Número a caracter
+
+Se puede convertir a cadena de caracteres con `rtos`, aunque corta los segundos por defecto, para mostrar segundos:
+
+```lisp
+(setq fecha_hora_t (rtos fecha_hora 2 6))
+```
+
+Para sacar partes de la cadena de caracteres se puede usar `substr`, de sub-string.
+
+```lisp
+(setq año_t (substr fecha_hora_t 1 4))
+(setq mes_t (substr fecha_hora_t 5 2))
+(setq dia_t (substr fecha_hora_t 7 2))
+(setq hora_t (substr fecha_hora_t 10 2))
+(setq min_t (substr fecha_hora_t 12 2))
+(setq seg_t (substr fecha_hora_t 14 2))
+```
+
+### Caracter a número
+
+Usando la función `atoi`, se interpreta como "ASCII to Integer":
+
+```lisp
+(setq año (atoi año_t))
+(setq mes (atoi mes_t))
+(setq dia (atoi dia_t))
+(setq hora (atoi hora_t))
+(setq min (atoi min_t))
+(setq seg (atoi seg_t))
+```
+
+## Cuadrar fecha y hora en el reloj
+
+Se puede hace definiendo el ángulo de la manecilla correspondiente, hay que tener en cuenta que todas las manecillas cuentan su ángulo desde el eje horizontal, es decir, que con ángulo cero (0), todas las manecillas apuntan hacia la derecha, o hacia el tres (3) del reloj análogo
+
+## Listas
+
+Con comando `list` para crea listas, y se podria crear por ejemplo una lista que contenga los dias por més del año.
