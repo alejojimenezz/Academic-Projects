@@ -5,6 +5,8 @@
 
 > [!TIP] Recordar:
 > - [X] Finalizar el programa con `Zoom - Extends`, para visualizar todo lo dibujado
+> - [ ] Nombrar elementos como variable para facilitar manipulación
+> - [ ] Agregar "_" a comandos para ejecución desde cualquier equipo configurado con cualquier idioma
 > - [ ] Agregar visualización final del reloj al README
 
 - [Reloj análogo-digital](#reloj-análogo-digital)
