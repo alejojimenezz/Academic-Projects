@@ -53,4 +53,9 @@
   (setq HH (atoi HH_t))
   (setq MM (atoi MM_t))
   (setq SS (atoi SS_t))
+
+  ;Variables para operar ángulos
+  (setq segunderoXs (/ 360 60))
+  (setq minuteroXs (/ 360 (* 60 12)))
+  (setq horarioXs (/ 360 (* 12 (* 60 60))))
 )
