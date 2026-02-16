@@ -7,9 +7,12 @@
   (command "_circle" "50,50" 48)
   (command "_circle" "50,50" 5)
 
-  (setq horario (command "_line" "50,50" "50,65" "")) ;Horario
-  (setq minutero (command "_line" "50,50" "50,80" "")) ;Minutero
-  (setq segundero (command "_line" "50,50" "50,90" "")) ;Segundero
+  (command "_line" "50,50" "50,65" "") ;Horario
+  (setq horario (entlast))
+  (command "_line" "50,50" "50,80" "") ;Minutero
+  (setq minutero (entlast))
+  (command "_line" "50,50" "50,90" "") ;Segundero
+  (setq segundero (entlast))
 
   ;Cuerpo digital
 
@@ -31,10 +34,10 @@
   (command "_line" "30,30" "70,30" "")
   (command "_line" "30,40" "70,40" "")
 
-  (command "_zoom" "_e")
+  (command "_zoom" "E")
 
   ;Obtener fecha/hora
-  (setq dateNow (getvar "_cdate")) ;AAAAMMDD.HHMMSScseg
+  (setq dateNow (getvar "cdate")) ;AAAAMMDD.HHMMSScseg
   ;(print dateNow)
 
   ;A string
@@ -54,8 +57,17 @@
   (setq MM (atoi MM_t))
   (setq SS (atoi SS_t))
 
+  (print SS)
+
   ;Variables para operar ángulos
-  (setq segunderoXs (/ 360 60))
-  (setq minuteroXs (/ 360 (* 60 12)))
   (setq horarioXs (/ 360 (* 12 (* 60 60))))
+  (setq minuteroXs (/ 360 (* 60 12)))
+  (setq segunderoXs (/ 360 60))
+
+  ;(print horarioXs)
+  ;(print minuteroXs)
+  ;(print segunderoXs)
+  
+  ;Ajuste a hora actual
+  (command "_rotate" segundero "" "50,50" (- 90 (* 6 SS)))
 )
