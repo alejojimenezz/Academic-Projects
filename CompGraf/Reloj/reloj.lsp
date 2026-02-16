@@ -35,6 +35,22 @@
 
   ;Obtener fecha/hora
   (setq dateNow (getvar "_cdate")) ;AAAAMMDD.HHMMSScseg
-  (print dateNow)
+  ;(print dateNow)
 
+  ;A string
+  (setq dateNow_t (rtos dateNow 2 6))
+  (setq Y_t (substr dateNow_t 1 4))
+  (setq M_t (substr dateNow_t 5 2))
+  (setq D_t (substr dateNow_t 7 2))
+  (setq HH_t (substr dateNow_t 10 2))
+  (setq MM_t (substr dateNow_t 12 2))
+  (setq SS_t (substr dateNow_t 14 2))
+
+  ;A numero
+  (setq Y (atoi Y_t))
+  (setq M (atoi M_t))
+  (setq D (atoi D_t))
+  (setq HH (atoi HH_t))
+  (setq MM (atoi MM_t))
+  (setq SS (atoi SS_t))
 )
