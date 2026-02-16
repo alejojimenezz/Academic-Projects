@@ -64,10 +64,15 @@
   (setq minuteroXs (/ 360 (* 60 12)))
   (setq segunderoXs (/ 360 60))
 
+  (setq factorMM (* MM 60))
+  (setq factorHH (* HH 3600))
+
   ;(print horarioXs)
   ;(print minuteroXs)
   ;(print segunderoXs)
   
   ;Ajuste a hora actual
-  (command "_rotate" segundero "" "50,50" (- 90 (* 6 SS)))
+  (command "_rotate" segundero "" "50,50" (* -1 (* 6 SS)))
+  (command "_rotate" minutero "" "50,50" (* -1 (* 6 MM)))
+  (command "_rotate" horario "" "50,50" (* -1 (* 30 HH)))
 )
