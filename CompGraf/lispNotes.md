@@ -132,3 +132,86 @@ Se puede hace definiendo el ángulo de la manecilla correspondiente, hay que ten
 ## Listas
 
 Con comando `list` para crea listas, y se podria crear por ejemplo una lista que contenga los dias por més del año.
+
+---
+
+## Funciones
+
+Usando la palabra clave `defun`, de la siguiente manera:
+
+```lisp
+(defun c:nombreFuncion ()
+    ;Contenido de la función
+)
+```
+
+```lisp
+(defun reloj ()
+    (print "RELOJ")
+    (setq radio (/ 100 4))
+)
+```
+
+## Para definir ángulos
+
+```lisp
+(defun c:reloj ()
+    (setq angsegXs (/ 360 60.0)
+          angminXm (/ 360 60.0)
+          anghorXh (/ 360 12.0)
+          angminXs (/ angminXm 60)
+          anghorXm (/ anghorXh 60)
+          anghorXs (/ anghorXm 60)
+          )
+)
+```
+## Obtener entrada de usuario
+
+Usando el comando `getint` de la siguiente forma:
+
+```lisp
+(getint "Mesaje de muestra: ")
+```
+
+El anterior ejemplo mostrará en consola el mensaje `Mesaje de muestra: ` para que el usuario ingrese un valor, se puede combinar con `setq` para guardar la entrada de usuario como una variable.
+
+## Ciclo de repetición
+
+Con el comando `repeat` para definir un ciclo que se repita determinado número de veces, por ejemplo, para el reloj:
+
+```lisp
+(repeat n
+    (command "_rotate" segundero "" "50,50" angsegXs)
+)
+```
+
+## Retardos
+
+Usando el comando `delay` para que el programa espere determinada cantidad de milisegundos, antes de pasar a la siguiente instrucción.
+
+```lisp
+(command "_delay" 1000) ;Retardo de 1 segundo
+```
+
+Éstas demoras pueden variar según la velocidad del PC. Para mejorar exactitud, revisar comandos `regen` y `redraw`
+
+## Arreglos
+
+Con el comando `array` se pueden dibujar las líneas de los alrededor del cuerpo del reloj.
+
+- [ ] Ver como sacar el día de la semana para colocar en el reloj
+- [ ] Para entrega del documento
+  - [ ] Portada
+  - [ ] Descripción del trabajo
+  - [ ] Descripción de la matemática utilizada
+  - [ ] Copia del código en el documento
+  - [ ] Cómo cargar y correr el programa
+  - [ ] Imágen final del reloj
+  - [ ] Conclusiones del programa
+  - [ ] Bibliografía
+
+---
+
+## Versión 2 del reloj
+
+Las manecillas del reloj serán bloques
