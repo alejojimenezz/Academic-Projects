@@ -60,21 +60,33 @@
   (print SS)
 
   ;Variables para operar ángulos
-  (setq horarioXs (/ 360 (* 12 (* 60 60))))
-  (setq minuteroXs (/ 360 (* 60 12)))
-  (setq segunderoXs (/ 360 60))
+  (setq horarioXh (/ 360 12.0)
+        horarioXm (/ horarioXh 60.0)
+        horarioXs (/ horarioXm 60.0)
+        minuteroXm (/ 360 60.0)
+        minuteroXs (/ minuteroXm 60.0)
+        segunderoXs (/ 360 60.0)
+  )
 
   ;(print horarioXs)
   ;(print minuteroXs)
   ;(print segunderoXs)
+
+  ;Ángulos iniciales
+  (setq HAngIni (+ (* HH horarioXh) (* MM horarioXm) (* SS horarioXs)))
+  (setq MAngIni (+ (* MM minuteroXm) (* SS minuteroXs)))
+  (setq SAngIni (* SS segunderoXs))
   
   ;Ajuste a hora actual
-  (command "_rotate" segundero "" "50,50" (* -1 (* 6 SS)))
-  (command "_rotate" minutero "" "50,50" (* -1 (* 6 MM)))
-  (command "_rotate" horario "" "50,50" (* -1 (* 30 HH)))
+  (command "_rotate" horario "" "50,50" (* -1 HAngIni))
+  (command "_rotate" minutero "" "50,50" (* -1 MAngIni))
+  (command "_rotate" segundero "" "50,50" (* -1 SAngIni))
 
-  (command "_text" "36,62" "5" "0" HH_t "")
-  (command "_text" "46,62" "5" "0" MM_t "")
-  (command "_text" "56,62" "5" "0" SS_t "")
   ;(command "_text" "puntoInicio" "altura" "rotacion")
+  (command "_text" "36,62" "5" "0" HH "")
+  (command "_text" "46,62" "5" "0" MM "")
+  (command "_text" "56,62" "5" "0" SS "")
+  (command "_text" "31,32" "5" "0" D "")
+  (command "_text" "41,32" "5" "0" M "")
+  (command "_text" "52,32" "5" "0" Y "")
 )
