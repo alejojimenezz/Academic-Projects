@@ -5,8 +5,10 @@
 
 > [!TIP] Recordar:
 > - [X] Finalizar el programa con `Zoom - Extends`, para visualizar todo lo dibujado
-> - [ ] Nombrar elementos como variable para facilitar manipulación
-> - [ ] Agregar "_" a comandos para ejecución desde cualquier equipo configurado con cualquier idioma
+> - [ ] Incorporar entrada de usuario para poner en funcionamiento el reloj
+> - [X] Nombrar elementos como variable para facilitar manipulación
+> - [X] Agregar "_" a comandos para ejecución desde cualquier equipo configurado con cualquier idioma
+> - [X] Mejorar cálculos de los ángulos para ajuste inicial de la hora
 > - [ ] Agregar visualización final del reloj al README
 
 - [Reloj análogo-digital](#reloj-análogo-digital)
@@ -15,6 +17,7 @@
   - [Desarrollo](#desarrollo)
     - [Cuerpo base del reloj](#cuerpo-base-del-reloj)
     - [Obtener hora](#obtener-hora)
+    - [Ajuste a hora obtenida](#ajuste-a-hora-obtenida)
   - [Ejecución](#ejecución)
     - [Método 1](#método-1)
     - [Método 2](#método-2)
@@ -31,8 +34,9 @@ mindmap
     Cuerpo principal
       Límites exteriores
       Punto central
-      Manijas del reloj
+      Manecillas del reloj
       Recuadros de digital
+      Líneas de division
     Hora del sistema
       Tomar hora del equipo
         Actualizar posición de las manijas con la hora actual
@@ -58,6 +62,10 @@ Además, como configuración previa, se apaga el `osnap` para que no hayan incon
 ### Obtener hora
 
 `(getvar "cdate")` retorna la hora actual de la forma `AAAAMMDD.HHMMSScseg`.
+
+### Ajuste a hora obtenida
+
+Los recuadros "digitales" se actualizan con la hora y la fecha actual del sistema, y las manecillas análogas se ajustan al ángulo según dicha hora; teniendo en cuenta que el horario y el minutero se les suma un ángulo más pequeño, según los segundos que ya hayan transcurrido de la hora y del minuto correspondientes.
 
 ## Ejecución
 
