@@ -2,6 +2,8 @@
   (command "_osnap" "_off") ;Apaga el osnap
   (command "_erase" "_all" "") ;Borra lo que esta en pantalla en AutoCad
 
+  (setq n (getint "Ingrese segundos de funcionamiento: "))
+
   ;Cuerpo analogo
   (command "_circle" "50,50" 50)
   (command "_circle" "50,50" 48)
@@ -84,9 +86,33 @@
 
   ;(command "_text" "puntoInicio" "altura" "rotacion")
   (command "_text" "36,62" "5" "0" HH "")
+  (setq numHH (entlast))
   (command "_text" "46,62" "5" "0" MM "")
+  (setq numMM (entlast))
   (command "_text" "56,62" "5" "0" SS "")
+  (setq numSS (entlast))
   (command "_text" "31,32" "5" "0" D "")
+  (setq numD (entlast))
   (command "_text" "41,32" "5" "0" M "")
+  (setq numM (entlast))
   (command "_text" "52,32" "5" "0" Y "")
+  (setq numY (entlast))
+
+  (repeat n 
+    ;Actualización digital
+    (setq SS (+ 1 SS))
+    (command "_erase" numSS "")
+    (command "_text" "56,62" "5" "0" SS "")
+    (setq numSS (entlast))
+    
+    ;Movimiento análogo
+    (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
+    (command "_rotate" minutero "" "50,50" (* -1 minuteroXs))
+    (command "_rotate" horario "" "50,50" (* -1 horarioXs))
+    (redraw segundero 1)
+    (redraw minutero 1)
+    (redraw horario 1)
+
+    (command "_delay" 1000)
+  )
 )
