@@ -5,16 +5,26 @@
   (setq n (getint "Ingrese segundos de funcionamiento: "))
 
   ;Cuerpo analogo
+
   (command "_circle" "50,50" 50)
   (command "_circle" "50,50" 48)
   (command "_circle" "50,50" 5)
+  (command "_zoom" "_E")
 
-  (command "_line" "50,50" "50,65" "") ;Horario
+  (command "_line" "50,50" "50,70" "") ;Horario
   (setq horario (entlast))
-  (command "_line" "50,50" "50,80" "") ;Minutero
+  (command "_line" "50,50" "50,85" "") ;Minutero
   (setq minutero (entlast))
   (command "_line" "50,50" "50,90" "") ;Segundero
   (setq segundero (entlast))
+
+  ;Para divisiones internas
+  ;Array -> last ent -> polar -> centro -> # divisiones -> 360 -> Confirmacion
+  (command "_line" "92,50" "98,50" "")
+	(command "_array" "_l" "" "_po" "50,50" 12 360 "_y" "")
+	(command "_line" "96,50" "98,50" "")
+	(command "_array" "_l" "" "_po" "50,50" 60 360 "_y" "")
+
 
   ;Cuerpo digital
 
@@ -36,7 +46,6 @@
   (command "_line" "30,30" "70,30" "")
   (command "_line" "30,40" "70,40" "")
 
-  (command "_zoom" "E")
 
   ;Obtener fecha/hora
   (setq dateNow (getvar "cdate")) ;AAAAMMDD.HHMMSScseg
