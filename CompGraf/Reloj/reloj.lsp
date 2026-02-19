@@ -101,10 +101,16 @@
   (repeat n 
     ;Actualización digital
     (setq SS (+ 1 SS))
-    (command "_erase" numSS "")
+    (if (= SS 60) (setq SS 0))
+    (if (= SS 0) (setq MM (+ 1 MM)))
+
+    (command "_erase" numSS numMM "")
     (command "_text" "56,62" "5" "0" SS "")
     (setq numSS (entlast))
-    
+    (command "_text" "46,62" "5" "0" MM "")
+    (setq numMM (entlast))
+
+
     ;Movimiento análogo
     (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
     (command "_rotate" minutero "" "50,50" (* -1 minuteroXs))
