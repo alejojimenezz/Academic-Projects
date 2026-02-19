@@ -5,10 +5,18 @@
 
 > [!TIP] Recordar:
 > - [X] Finalizar el programa con `Zoom - Extends`, para visualizar todo lo dibujado
-> - [ ] Incorporar entrada de usuario para poner en funcionamiento el reloj
+> - [X] Incorporar entrada de usuario para poner en funcionamiento el reloj
+> - [ ] Incorporar entrada de usuario para posicionar el reloj
 > - [X] Nombrar elementos como variable para facilitar manipulación
 > - [X] Agregar "_" a comandos para ejecución desde cualquier equipo configurado con cualquier idioma
 > - [X] Mejorar cálculos de los ángulos para ajuste inicial de la hora
+> - [ ] Condicionar las actualizaciones del reloj digital
+>   - [ ] 60 segundos
+>   - [ ] 60 minutos
+>   - [ ] 24 horas
+>   - [ ] Revisar dias por mes
+>   - [ ] 12 meses
+>   - [ ] Años bisiesto
 > - [ ] Agregar visualización final del reloj al README
 
 - [Reloj análogo-digital](#reloj-análogo-digital)
@@ -18,9 +26,14 @@
     - [Cuerpo base del reloj](#cuerpo-base-del-reloj)
     - [Obtener hora](#obtener-hora)
     - [Ajuste a hora obtenida](#ajuste-a-hora-obtenida)
+    - [Actualización cada segundo](#actualización-cada-segundo)
+      - [Digital](#digital)
+      - [Análogo](#análogo)
   - [Ejecución](#ejecución)
     - [Método 1](#método-1)
     - [Método 2](#método-2)
+    - [Funcionamiento del reloj](#funcionamiento-del-reloj)
+  - [Bibliografía](#bibliografía)
 
 ## Introducción
 
@@ -67,7 +80,21 @@ Además, como configuración previa, se apaga el `osnap` para que no hayan incon
 
 Los recuadros "digitales" se actualizan con la hora y la fecha actual del sistema, y las manecillas análogas se ajustan al ángulo según dicha hora; teniendo en cuenta que el horario y el minutero se les suma un ángulo más pequeño, según los segundos que ya hayan transcurrido de la hora y del minuto correspondientes.
 
+### Actualización cada segundo
+
+En un ciclo que se repite la cantidad de segundos que sean definidas por el usuario, se ejecutan los comandos para actualizar debidamente el reloj.
+
+#### Digital
+
+Actualiza el segundo del reloj digital, y se definen las condiciones para que, al llegar a 59 segundos, esta cuenta vuelva a 0, y que según esto, tambien aumenten debidamente los minutos, horas, dias, meses, y años.
+
+#### Análogo
+
+Cada manecilla rota su respectivo ángulo, pasado cada segundo.
+
 ## Ejecución
+
+Primero realizar uno de los dos siguientes métodos:
 
 ### Método 1
 
@@ -79,3 +106,12 @@ Dentro del editor se puede abrir el [programa del reloj](/CompGraf/Reloj/reloj.l
 En la ventana activa de AutoCAD se puede ejecutar el comando `APPLOAD`, el cuál abre una nueva ventana para cargar aplicaciones personalizadas.
 En la ventana emergente, se puede buscar la ubicación de la [aplicación](/CompGraf/Reloj/reloj.lsp) dentro del sistema, se selecciona, y se presiona `LOAD`; posteriormente se puede cerrar ésta ventana.
 Si el procedimiento se hizo correctamente, se puede ejecutar la aplicación de la misma manera que se hace cualquier otro comando, escribiendo el nombre de la aplicación `reloj`.
+
+### Funcionamiento del reloj
+
+Si se realizó el método seleccionado correctamente, en la ventana de AutoCAD se solicitará al usuario ingresar los segundos que desea poner en funcionamiento el reloj, a lo que se ingresa el número, y se presiona la tecla `Enter`.
+
+## Bibliografía
+
+- https://help.autodesk.com/view/OARX/2024/ENU/
+- https://www.afralisp.net/
