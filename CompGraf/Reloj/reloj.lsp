@@ -1,3 +1,31 @@
+(defun diasMes (mes anno)
+  (cond
+    ((or (= mes 1)
+         (= mes 3) 
+         (= mes 5) 
+         (= mes 7)
+         (= mes 8) 
+         (= mes 10) 
+         (= mes 12)) 31)
+
+    ((or (= mes 4) 
+         (= mes 6) 
+         (= mes 9) 
+         (= mes 11)) 30)
+
+    ((= mes 2)
+     (if (or
+           (and (= (rem anno 4) 0) 
+                (/= (rem anno 100) 0))
+           (= (rem anno 400) 0))
+         29 ;true bisiesto
+         28 ;false bisiesto
+     )
+    )
+  )
+)
+
+
 (defun c:reloj ()
   (command "_osnap" "_off") ;Apaga el osnap
   (command "_erase" "_all" "") ;Borra lo que esta en pantalla en AutoCad
@@ -117,13 +145,25 @@
     (if (= HH 24) (setq HH 0))
     (if (= HH 0) (setq D (+ 1 D)))
 
-    (command "_erase" numSS numMM numHH "")
+    ;Falta probar el cambio de mes
+    (if (> D (diasMes M Y)) (setq D 1))
+    (if (= D 1) (setq M (+ 1 M)))
+    (if (> M 12) (setq M 1))
+    (if (= M 1) (setq Y (+ 1 Y)))
+
+    (command "_erase" numSS numMM numHH numD numM numY "")
     (command "_text" "56,62" "5" "0" SS "")
     (setq numSS (entlast))
     (command "_text" "46,62" "5" "0" MM "")
     (setq numMM (entlast))
     (command "_text" "36,62" "5" "0" HH "")
     (setq numHH (entlast))
+    (command "_text" "31,32" "5" "0" D "")
+    (setq numD (entlast))
+    (command "_text" "41,32" "5" "0" M "")
+    (setq numM (entlast))
+    (command "_text" "52,32" "5" "0" Y "")
+    (setq numY (entlast))
 
     ;Movimiento an�logo
     (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
