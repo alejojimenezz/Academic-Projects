@@ -10,13 +10,17 @@
 > - [X] Nombrar elementos como variable para facilitar manipulación
 > - [X] Agregar "_" a comandos para ejecución desde cualquier equipo configurado con cualquier idioma
 > - [X] Mejorar cálculos de los ángulos para ajuste inicial de la hora
-> - [ ] Condicionar las actualizaciones del reloj digital
+> - [X] Condicionar las actualizaciones del reloj digital
 >   - [X] 60 segundos
 >   - [X] 60 minutos
 >   - [X] 24 horas
->   - [ ] Revisar dias por mes
->   - [ ] 12 meses
->   - [ ] Años bisiesto
+>   - [X] Revisar dias por mes
+>   - [X] 12 meses
+>   - [X] Años bisiesto
+> - [ ] Agregar prueba para ver funcionamiento de cambios
+>   - [ ] Meses
+>   - [ ] Año
+>   - [ ] Febrero bisiesto
 > - [ ] Agregar visualización final del reloj al README
 
 - [Reloj análogo-digital](#reloj-análogo-digital)
@@ -61,6 +65,14 @@ mindmap
         360/60/60 = 0.1
       Horario
         360/12/60/60 = 0.0083
+    Condicionales de cambio digital
+      +1 minuto cada 60 segundos
+      +1 hora cada 60 minutos
+      +1 dia cada 24 horas
+      +1 mes
+        Meses de 30/31 dias
+        Febrero de 28/29 dias
+      +1 año cada 12 meses
 ```
 
 ## Desarrollo
@@ -88,13 +100,18 @@ En un ciclo que se repite la cantidad de segundos que sean definidas por el usua
 
 Actualiza el segundo del reloj digital, y se definen las condiciones para que, al llegar a 59 segundos, esta cuenta vuelva a 0, y que según esto, tambien aumenten debidamente los minutos, horas, dias, meses, y años.
 
+Adicionalmente, teniendo en cuenta que hay meses con diferentes cantidades de días, se apoya de una función auxiliar `diasMes`; donde se definen los meses con 30 y 31 días, y para febrero, o mes 2, se evalúa adicionalmente si se encuentra en un año bisiesto o no.
+
+> [!TIP]
+> Los años bisiestos son los divisibles por 4, a excepción de los divisibles por 100, pero cuentan como bisiestos los divisibles por 400.
+
 #### Análogo
 
 Cada manecilla rota su respectivo ángulo, pasado cada segundo.
 
 ## Ejecución
 
-Primero realizar uno de los dos siguientes métodos:
+Realizar uno de los dos siguientes métodos:
 
 ### Método 1
 
