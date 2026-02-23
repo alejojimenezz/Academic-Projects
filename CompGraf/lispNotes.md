@@ -199,6 +199,7 @@ Usando el comando `delay` para que el programa espere determinada cantidad de mi
 
 Con el comando `array` se pueden dibujar las líneas de los alrededor del cuerpo del reloj.
 
+- [ ] Definir manecillas de reloj como bloques
 - [ ] Ver como sacar el día de la semana para colocar en el reloj
 - [ ] Para entrega del documento
   - [ ] Portada
@@ -215,3 +216,7 @@ Con el comando `array` se pueden dibujar las líneas de los alrededor del cuerpo
 ## Versión 2 del reloj
 
 Las manecillas del reloj serán bloques
+
+## Funciones VLA
+
+Son funciones destinadas a mejorar programas elaborados en LISP para ejecución en AutoCAD
