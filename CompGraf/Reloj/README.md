@@ -11,9 +11,9 @@
 > - [X] Agregar "_" a comandos para ejecución desde cualquier equipo configurado con cualquier idioma
 > - [X] Mejorar cálculos de los ángulos para ajuste inicial de la hora
 > - [ ] Condicionar las actualizaciones del reloj digital
->   - [ ] 60 segundos
->   - [ ] 60 minutos
->   - [ ] 24 horas
+>   - [X] 60 segundos
+>   - [X] 60 minutos
+>   - [X] 24 horas
 >   - [ ] Revisar dias por mes
 >   - [ ] 12 meses
 >   - [ ] Años bisiesto
