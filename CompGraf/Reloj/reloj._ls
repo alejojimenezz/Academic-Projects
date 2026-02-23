@@ -70,7 +70,7 @@
 
   (print SS)
 
-  ;Variables para operar �ngulos
+  ;Variables para operar ángulos
   (setq horarioXh (/ 360 12.0)
         horarioXm (/ horarioXh 60.0)
         horarioXs (/ horarioXm 60.0)
@@ -108,24 +108,19 @@
   (setq numY (entlast))
 
   (repeat n 
-    ;Actualizaci�n digital
+    ;Actualización digital
     (setq SS (+ 1 SS))
     (if (= SS 60) (setq SS 0))
     (if (= SS 0) (setq MM (+ 1 MM)))
-    (if (= MM 60) (setq MM 0))
-    (if (= MM 0) (setq HH (+ 1 HH)))
-    (if (= HH 24) (setq HH 0))
-    (if (= HH 0) (setq D (+ 1 D)))
 
-    (command "_erase" numSS numMM numHH "")
+    (command "_erase" numSS numMM "")
     (command "_text" "56,62" "5" "0" SS "")
     (setq numSS (entlast))
     (command "_text" "46,62" "5" "0" MM "")
     (setq numMM (entlast))
-    (command "_text" "36,62" "5" "0" HH "")
-    (setq numHH (entlast))
 
-    ;Movimiento an�logo
+
+    ;Movimiento análogo
     (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
     (command "_rotate" minutero "" "50,50" (* -1 minuteroXs))
     (command "_rotate" horario "" "50,50" (* -1 horarioXs))
