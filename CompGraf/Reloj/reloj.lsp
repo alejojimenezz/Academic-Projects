@@ -96,7 +96,16 @@
   (setq MM (atoi MM_t))
   (setq SS (atoi SS_t))
 
-  (print SS)
+  ;(print SS)
+  ;_____________________________________________________
+  ; Bloque de código para depuración digital
+  ;; (setq Y 2028)
+  ;; (setq M 2)
+  ;; (setq D 28)
+  ;; (setq HH 23)
+  ;; (setq MM 59)
+  ;; (setq SS 55)
+  ;_____________________________________________________
 
   ;Variables para operar �ngulos
   (setq horarioXh (/ 360 12.0)
