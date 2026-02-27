@@ -7,10 +7,10 @@
 > Presionando F2 muestra el historial de la linea de comandos de AutoCAD
 
 - [X] Buscar programa de hacer mapas mentales
-- [ ] Hacer reloj análogo/digital propio
-- [ ] Documentar el proceso de realización del reloj
+- [x] Hacer reloj análogo/digital propio
+- [X] Documentar el proceso de realización del reloj
 - [X] Como tomar hora del sistema
-- [ ] Agregar `_` a comandos
+- [X] Agregar `_` a comandos
 
 ---
 
@@ -202,14 +202,14 @@ Con el comando `array` se pueden dibujar las líneas de los alrededor del cuerpo
 - [ ] Definir manecillas de reloj como bloques
 - [ ] Ver como sacar el día de la semana para colocar en el reloj
 - [ ] Para entrega del documento
-  - [ ] Portada
+  - [X] Portada
   - [ ] Descripción del trabajo
   - [ ] Descripción de la matemática utilizada
-  - [ ] Copia del código en el documento
-  - [ ] Cómo cargar y correr el programa
+  - [X] Copia del código en el documento
+  - [X] Cómo cargar y correr el programa
   - [ ] Imágen final del reloj
   - [ ] Conclusiones del programa
-  - [ ] Bibliografía
+  - [X] Bibliografía
 
 ---
 
