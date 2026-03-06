@@ -17,10 +17,10 @@
 >   - [X] Revisar dias por mes
 >   - [X] 12 meses
 >   - [X] Años bisiesto
-> - [ ] Agregar prueba para ver funcionamiento de cambios
->   - [ ] Meses
->   - [ ] Año
->   - [ ] Febrero bisiesto
+> - [X] Agregar prueba para ver funcionamiento de cambios
+>   - [X] Meses
+>   - [X] Año
+>   - [X] Febrero bisiesto
 > - [ ] Agregar visualización final del reloj al README
 
 - [Reloj análogo-digital](#reloj-análogo-digital)

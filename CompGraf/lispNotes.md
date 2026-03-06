@@ -203,8 +203,8 @@ Con el comando `array` se pueden dibujar las líneas de los alrededor del cuerpo
 - [ ] Ver como sacar el día de la semana para colocar en el reloj
 - [ ] Para entrega del documento
   - [X] Portada
-  - [ ] Descripción del trabajo
-  - [ ] Descripción de la matemática utilizada
+  - [X] Descripción del trabajo
+  - [X] Descripción de la matemática utilizada
   - [X] Copia del código en el documento
   - [X] Cómo cargar y correr el programa
   - [ ] Imágen final del reloj
@@ -220,3 +220,15 @@ Las manecillas del reloj serán bloques
 ## Funciones VLA
 
 Son funciones destinadas a mejorar programas elaborados en LISP para ejecución en AutoCAD
+
+## Auxiliares
+
+`entget`
+`entlast`
+`subst`: `(subst lo_nuevo lo_viejo en_donde)`
+`assoc`
+`cdr`
+
+```lisp
+(subst (cons 50 angulo) (assoc 50 manecilla) manecilla)
+```
