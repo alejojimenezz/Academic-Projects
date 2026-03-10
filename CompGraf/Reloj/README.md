@@ -21,7 +21,7 @@
 >   - [X] Meses
 >   - [X] Año
 >   - [X] Febrero bisiesto
-> - [ ] Agregar visualización final del reloj al README
+> - [X] Agregar visualización final del reloj al README
 
 - [Reloj análogo-digital](#reloj-análogo-digital)
   - [Introducción](#introducción)
@@ -37,6 +37,7 @@
     - [Método 1](#método-1)
     - [Método 2](#método-2)
     - [Funcionamiento del reloj](#funcionamiento-del-reloj)
+  - [Versión 1](#versión-1)
   - [Bibliografía](#bibliografía)
 
 ## Introducción
@@ -127,6 +128,10 @@ Si el procedimiento se hizo correctamente, se puede ejecutar la aplicación de l
 ### Funcionamiento del reloj
 
 Si se realizó el método seleccionado correctamente, en la ventana de AutoCAD se solicitará al usuario ingresar los segundos que desea poner en funcionamiento el reloj, a lo que se ingresa el número, y se presiona la tecla `Enter`.
+
+## Versión 1
+
+![Imágen de versión 1 del reloj](/CompGraf/Reloj/v1.png)
 
 ## Bibliografía
 
