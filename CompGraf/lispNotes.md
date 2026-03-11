@@ -201,14 +201,14 @@ Con el comando `array` se pueden dibujar las líneas de los alrededor del cuerpo
 
 - [ ] Definir manecillas de reloj como bloques
 - [ ] Ver como sacar el día de la semana para colocar en el reloj
-- [ ] Para entrega del documento
+- [X] Para entrega del documento
   - [X] Portada
   - [X] Descripción del trabajo
   - [X] Descripción de la matemática utilizada
   - [X] Copia del código en el documento
   - [X] Cómo cargar y correr el programa
-  - [ ] Imágen final del reloj
-  - [ ] Conclusiones del programa
+  - [X] Imágen final del reloj
+  - [X] Conclusiones del programa
   - [X] Bibliografía
 
 ---

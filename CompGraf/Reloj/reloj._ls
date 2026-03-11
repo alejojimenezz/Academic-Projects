@@ -39,11 +39,18 @@
   (command "_circle" "50,50" 5)
   (command "_zoom" "_E")
 
-  (command "_line" "50,50" "50,70" "") ;Horario
+  ;; (command "_line" "50,50" "50,70" "") ;Horario
+  ;; (setq horario (entlast))
+  ;; (command "_line" "50,50" "50,85" "") ;Minutero
+  ;; (setq minutero (entlast))
+  ;; (command "_line" "50,50" "50,90" "") ;Segundero
+  ;; (setq segundero (entlast))
+
+  (command "_3dpoly" "48.5,50" "48.5,70" "51.5,70" "51.5,50" "")
   (setq horario (entlast))
-  (command "_line" "50,50" "50,85" "") ;Minutero
+  (command "_3dpoly" "49,50" "49,85" "51,85" "51,50" "")
   (setq minutero (entlast))
-  (command "_line" "50,50" "50,90" "") ;Segundero
+  (command "_3dpoly" "49.5,50" "49.5,90" "50.5,90" "50.5,50" "")
   (setq segundero (entlast))
 
   ;Para divisiones internas
@@ -99,12 +106,12 @@
   ;(print SS)
   ;_____________________________________________________
   ; Bloque de código para depuración digital
-  (setq Y 2028)
-  (setq M 2)
-  (setq D 28)
-  (setq HH 23)
-  (setq MM 59)
-  (setq SS 55)
+;;;  (setq Y 2028)
+;;;  (setq M 2)
+;;;  (setq D 28)
+;;;  (setq HH 23)
+;;;  (setq MM 59)
+;;;  (setq SS 55)
   ;_____________________________________________________
 
   ;Variables para operar �ngulos
@@ -146,33 +153,76 @@
 
   (repeat n 
     ;Actualizaci�n digital
-    (setq SS (+ 1 SS))
-    (if (= SS 60) (setq SS 0))
-    (if (= SS 0) (setq MM (+ 1 MM)))
-    (if (= MM 60) (setq MM 0))
-    (if (= MM 0) (setq HH (+ 1 HH)))
-    (if (= HH 24) (setq HH 0))
-    (if (= HH 0) (setq D (+ 1 D)))
+    (setq SS (+ SS 1))
 
-    ;Falta probar el cambio de mes
-    (if (> D (diasMes M Y)) (setq D 1))
-    (if (= D 1) (setq M (+ 1 M)))
-    (if (> M 12) (setq M 1))
-    (if (= M 1) (setq Y (+ 1 Y)))
+    (if (= SS 60)
+      (progn
+        (setq SS 0)
+        (setq MM (+ MM 1))
 
-    (command "_erase" numSS numMM numHH numD numM numY "")
+        (if (= MM 60)
+          (progn
+            (setq MM 0)
+            (setq HH (+ HH 1))
+
+            (if (= HH 24)
+              (progn
+                (setq HH 0)
+                (setq D (+ D 1))
+
+                (if (> D (diasMes M Y))
+                  (progn
+                    (setq D 1)
+                    (setq M (+ M 1))
+
+                    (if (> M 12)
+                      (progn
+                        (setq M 1)
+                        (setq Y (+ Y 1))
+                      )
+                    )
+                  )
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+
+    (command "_erase" numSS "")
     (command "_text" "56,62" "5" "0" SS "")
     (setq numSS (entlast))
-    (command "_text" "46,62" "5" "0" MM "")
-    (setq numMM (entlast))
-    (command "_text" "36,62" "5" "0" HH "")
-    (setq numHH (entlast))
-    (command "_text" "31,32" "5" "0" D "")
-    (setq numD (entlast))
-    (command "_text" "41,32" "5" "0" M "")
-    (setq numM (entlast))
-    (command "_text" "52,32" "5" "0" Y "")
-    (setq numY (entlast))
+
+    (if (/= MM (atoi numMM))
+      (command "_erase" numMM "")
+      (command "_text" "46,62" "5" "0" MM "")
+      (setq numMM (entlast))
+    )
+
+    (if (/= HH (atoi numHH))
+      (command "_erase" numHH "")
+      (command "_text" "36,62" "5" "0" HH "")
+      (setq numHH (entlast))
+    )
+
+    (if (/= D (atoi numD))
+      (command "_erase" numD "")
+      (command "_text" "31,32" "5" "0" D "")
+      (setq numD (entlast))
+    )
+    
+    (if (/= D (atoi numM))
+      (command "_erase" numM "")
+      (command "_text" "41,32" "5" "0" M "")
+      (setq numM (entlast))
+    )
+    
+    (if (/= D (atoi numY))
+      (command "_erase" numY "")
+      (command "_text" "52,32" "5" "0" Y "")
+      (setq numY (entlast))
+    )
 
     ;Movimiento an�logo
     (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
