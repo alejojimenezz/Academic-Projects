@@ -37,14 +37,24 @@
   (command "_circle" "50,50" 50)
   (command "_circle" "50,50" 48)
   (command "_circle" "50,50" 5)
+  (setq centro (entlast)) 
   (command "_zoom" "_E")
 
-  (command "_line" "50,50" "50,70" "") ;Horario
+  ;; (command "_line" "50,50" "50,70" "") ;Horario
+  ;; (setq horario (entlast))
+  ;; (command "_line" "50,50" "50,85" "") ;Minutero
+  ;; (setq minutero (entlast))
+  ;; (command "_line" "50,50" "50,90" "") ;Segundero
+  ;; (setq segundero (entlast))
+
+  (command "_pline" "48.5,50" "48.5,70" "51.5,70" "51.5,50" "")
   (setq horario (entlast))
-  (command "_line" "50,50" "50,85" "") ;Minutero
+  (command "_pline" "49,50" "49,85" "51,85" "51,50" "")
   (setq minutero (entlast))
-  (command "_line" "50,50" "50,90" "") ;Segundero
+  (command "_pline" "49.5,50" "49.5,90" "50.5,90" "50.5,50" "")
   (setq segundero (entlast))
+
+  ;(command "_extm" centro "50,50")
 
   ;Para divisiones internas
   ;Array -> last ent -> polar -> centro -> # divisiones -> 360 -> Confirmacion
