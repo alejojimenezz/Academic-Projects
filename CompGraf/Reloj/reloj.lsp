@@ -25,6 +25,36 @@
   )
 )
 
+(defun rotarPunto (pt centro ang)
+  (setq x (- (car pt) (car centro)))
+  (setq y (- (cadr pt) (cadr centro)))
+
+  (setq xr (- (* x (cos ang)) (* y (sin ang))))
+  (setq yr (+ (* x (sin ang)) (* y (cos ang))))
+
+  (list (+ xr (car centro)) (+ yr (cadr centro)))
+)
+
+(defun rotarEntidad (ent ang centro / data nueva)
+  (setq data (entget ent))
+
+  (setq nueva
+    (mapcar
+      (function
+	(lambda (item)
+	  (if (= (car item) 10)
+	    (cons 10 (rotarPunto (cdr item) centro ang))
+	    item
+	  )
+	)
+      )
+      data
+    )
+  )
+
+  (entmod nueva)
+  (entupd ent)
+)
 
 (defun c:reloj ()
   (command "_osnap" "_off") ;Apaga el osnap
@@ -135,7 +165,7 @@
   (setq MAngIni (+ (* MM minuteroXm) (* SS minuteroXs)))
   (setq SAngIni (* SS segunderoXs))
   
-  ;Ajuste a hora actual
+  ;Ajuste a hora actual con comando rotate
   (command "_rotate" horario "" "50,50" (* -1 HAngIni))
   (command "_rotate" minutero "" "50,50" (* -1 MAngIni))
   (command "_rotate" segundero "" "50,50" (* -1 SAngIni))
@@ -207,10 +237,23 @@
     (command "_text" "52,32" "5" "0" Y "")
     (setq numY (entlast))
 
-    ;Movimiento an�logo
-    (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
-    (command "_rotate" minutero "" "50,50" (* -1 minuteroXs))
-    (command "_rotate" horario "" "50,50" (* -1 horarioXs))
+    ;Movimiento an�logo con comando rotate
+;;;    (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
+;;;    (command "_rotate" minutero "" "50,50" (* -1 minuteroXs))
+;;;    (command "_rotate" horario "" "50,50" (* -1 horarioXs))
+;;;    (redraw segundero 1)
+;;;    (redraw minutero 1)
+;;;    (redraw horario 1)
+
+    ; Movimiento an�logo configurando entidad
+    (setq angS (* -1 segunderoXs (/ pi 180)))
+    (setq angM (* -1 minuteroXs (/ pi 180)))
+    (setq angH (* -1 horarioXs (/ pi 180)))
+
+    (rotarEntidad segundero angS '(50 50))
+    (rotarEntidad minutero angM '(50 50))
+    (rotarEntidad horario angH '(50 50))
+
     (redraw segundero 1)
     (redraw minutero 1)
     (redraw horario 1)
