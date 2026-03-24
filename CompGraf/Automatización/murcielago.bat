@@ -1,0 +1,1 @@
+"C:\Users\ThinkPad\AppData\Local\Programs\Microsoft VS Code\Code.exe"
