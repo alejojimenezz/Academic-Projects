@@ -38,6 +38,7 @@
     - [Método 2](#método-2)
     - [Funcionamiento del reloj](#funcionamiento-del-reloj)
   - [Versión 1](#versión-1)
+  - [Versión 2](#versión-2)
   - [Bibliografía](#bibliografía)
 
 ## Introducción
@@ -132,6 +133,10 @@ Si se realizó el método seleccionado correctamente, en la ventana de AutoCAD s
 ## Versión 1
 
 ![Imágen de versión 1 del reloj](/CompGraf/Reloj/v1.png)
+
+## Versión 2
+
+El principal cambio que se tiene en cuenta para esta versión es la rotación de las manecillas del reloj, el cuál se estaba haciento con el comando `rotate`. La rotación pasa a ser hecha modificando directamente las propiedades de la entidad, cambiando el ángulo correspondiente dentre de dichas propiedades.
 
 ## Bibliografía
 
