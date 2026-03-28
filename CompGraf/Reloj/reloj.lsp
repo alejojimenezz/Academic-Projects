@@ -1,3 +1,4 @@
+;Funcion para # dias del mes correspondiente con bisiestos
 (defun diasMes (mes anno)
   (cond
     ((or (= mes 1)
@@ -25,6 +26,7 @@
   )
 )
 
+;Funcion auxiliar para rotacion de entidades
 (defun rotarPunto (pt centro ang)
   (setq a (- (car pt) (car centro)))
   (setq b (- (cadr pt) (cadr centro)))
@@ -35,6 +37,7 @@
   (list (+ ar (car centro)) (+ br (cadr centro)))
 )
 
+;Funcion principal para rotacion de entidades
 (defun rotarEntidad (ent ang centro / data nueva)
   (setq data (entget ent))
 
@@ -56,6 +59,7 @@
   (entupd ent)
 )
 
+;Funcion para simplificar actualizacion de texto (falta modificacion de entidades)
 (defun actualizarTexto (ent valor punto / nuevo)
   (if ent
     (progn
@@ -66,6 +70,7 @@
   )
 )
 
+;Funcion / Comando RELOJ
 (defun c:reloj ()
   (command "_osnap" "_off") ;Apaga el osnap
   (command "_erase" "_all" "") ;Borra lo que esta en pantalla en AutoCad
@@ -87,6 +92,7 @@
   ;; (command "_line" "50,50" "50,90" "") ;Segundero
   ;; (setq segundero (entlast))
 
+  ;Manecillas definidas como bloques
   (command "_pline" "48.5,50" "48.5,70" "51.5,70" "51.5,50" "")
   (setq horario (entlast))
   (command "_pline" "49,50" "49,85" "51,85" "51,50" "")
@@ -148,7 +154,7 @@
 
   ;(print SS)
   ;_____________________________________________________
-  ; Bloque de código para depuración digital
+  ; Bloque de codigo para depuracion digital
 ;;;  (setq Y 2028)
 ;;;  (setq M 2)
 ;;;  (setq D 28)
@@ -202,7 +208,7 @@
   (setq prevY Y)
 
   (repeat n 
-    ;Actualizaci�n digital
+    ;Actualizacion digital
     (setq SS (+ SS 1))
 
 	(if (= SS 60)
@@ -294,7 +300,7 @@
       )
     )
 
-    ; Movimiento an�logo configurando entidad
+    ; Movimiento analogo configurando entidad
     (setq angS (* -1 segunderoXs (/ pi 180)))
     (setq angM (* -1 minuteroXs (/ pi 180)))
     (setq angH (* -1 horarioXs (/ pi 180)))

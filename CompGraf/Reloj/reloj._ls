@@ -25,6 +25,46 @@
   )
 )
 
+(defun rotarPunto (pt centro ang)
+  (setq a (- (car pt) (car centro)))
+  (setq b (- (cadr pt) (cadr centro)))
+
+  (setq ar (- (* a (cos ang)) (* b (sin ang))))
+  (setq br (+ (* a (sin ang)) (* b (cos ang))))
+
+  (list (+ ar (car centro)) (+ br (cadr centro)))
+)
+
+(defun rotarEntidad (ent ang centro / data nueva)
+  (setq data (entget ent))
+
+  (setq nueva
+    (mapcar
+      (function
+	(lambda (item)
+	  (if (= (car item) 10)
+	    (cons 10 (rotarPunto (cdr item) centro ang))
+	    item
+	  )
+	)
+      )
+      data
+    )
+  )
+
+  (entmod nueva)
+  (entupd ent)
+)
+
+(defun actualizarTexto (ent valor punto / nuevo)
+  (if ent
+    (progn
+      (entdel ent)
+      (command "_text" punto "5" "0" valor "")
+      (setq nuevo (entlast))
+    )
+  )
+)
 
 (defun c:reloj ()
   (command "_osnap" "_off") ;Apaga el osnap
@@ -59,9 +99,9 @@
   ;Para divisiones internas
   ;Array -> last ent -> polar -> centro -> # divisiones -> 360 -> Confirmacion
   (command "_line" "92,50" "98,50" "")
-	(command "_array" "_l" "" "_po" "50,50" 12 360 "_y" "")
-	(command "_line" "96,50" "98,50" "")
-	(command "_array" "_l" "" "_po" "50,50" 60 360 "_y" "")
+  (command "_array" "_l" "" "_po" "50,50" 12 360 "_y" "")
+  (command "_line" "96,50" "98,50" "")
+  (command "_array" "_l" "" "_po" "50,50" 60 360 "_y" "")
 
 
   ;Cuerpo digital
@@ -135,7 +175,7 @@
   (setq MAngIni (+ (* MM minuteroXm) (* SS minuteroXs)))
   (setq SAngIni (* SS segunderoXs))
   
-  ;Ajuste a hora actual
+  ;Ajuste a hora actual con comando rotate
   (command "_rotate" horario "" "50,50" (* -1 HAngIni))
   (command "_rotate" minutero "" "50,50" (* -1 MAngIni))
   (command "_rotate" segundero "" "50,50" (* -1 SAngIni))
@@ -153,6 +193,13 @@
   (setq numM (entlast))
   (command "_text" "52,32" "5" "0" Y "")
   (setq numY (entlast))
+
+  (setq prevSS SS)
+  (setq prevMM MM)
+  (setq prevHH HH)
+  (setq prevD D)
+  (setq prevM M)
+  (setq prevY Y)
 
   (repeat n 
     ;Actualizaci�n digital
@@ -193,24 +240,69 @@
 	  )
 	)
 
-    (command "_erase" numSS numMM numHH numD numM numY "")
-    (command "_text" "56,62" "5" "0" SS "")
-    (setq numSS (entlast))
-    (command "_text" "46,62" "5" "0" MM "")
-    (setq numMM (entlast))
-    (command "_text" "36,62" "5" "0" HH "")
-    (setq numHH (entlast))
-    (command "_text" "31,32" "5" "0" D "")
-    (setq numD (entlast))
-    (command "_text" "41,32" "5" "0" M "")
-    (setq numM (entlast))
-    (command "_text" "52,32" "5" "0" Y "")
-    (setq numY (entlast))
+    (if (/= SS prevSS)
+      (progn
+    	(entdel numSS)
+    	(command "_text" "56,62" "5" "0" SS "")
+    	(setq numSS (entlast))
+    	(setq prevSS SS)
+      )
+    )
 
-    ;Movimiento an�logo
-    (command "_rotate" segundero "" "50,50" (* -1 segunderoXs))
-    (command "_rotate" minutero "" "50,50" (* -1 minuteroXs))
-    (command "_rotate" horario "" "50,50" (* -1 horarioXs))
+    (if (/= MM prevMM)
+      (progn
+    	(entdel numMM)
+    	(command "_text" "46,62" "5" "0" MM "")
+    	(setq numMM (entlast))
+    	(setq prevMM MM)
+      )
+    )
+
+    (if (/= HH prevHH)
+      (progn
+    	(entdel numHH)
+    	(command "_text" "36,62" "5" "0" HH "")
+    	(setq numHH (entlast))
+    	(setq prevHH HH)
+      )
+    )
+
+    (if (/= D prevD)
+      (progn
+    	(entdel numD)
+    	(command "_text" "31,32" "5" "0" D "")
+    	(setq numD (entlast))
+    	(setq prevD D)
+      )
+    )
+
+    (if (/= M prevM)
+      (progn
+    	(entdel numM)
+    	(command "_text" "41,32" "5" "0" M "")
+    	(setq numM (entlast))
+    	(setq prevM M)
+      )
+    )
+
+    (if (/= Y prevY)
+      (progn
+    	(entdel numY)
+    	(command "_text" "52,32" "5" "0" Y "")
+    	(setq numY (entlast))
+    	(setq prevY Y)
+      )
+    )
+
+    ; Movimiento an�logo configurando entidad
+    (setq angS (* -1 segunderoXs (/ pi 180)))
+    (setq angM (* -1 minuteroXs (/ pi 180)))
+    (setq angH (* -1 horarioXs (/ pi 180)))
+
+    (rotarEntidad segundero angS '(50 50))
+    (rotarEntidad minutero angM '(50 50))
+    (rotarEntidad horario angH '(50 50))
+
     (redraw segundero 1)
     (redraw minutero 1)
     (redraw horario 1)
