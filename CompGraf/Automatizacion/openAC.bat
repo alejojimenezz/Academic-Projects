@@ -1,0 +1,1 @@
+"C:\Program Files\Autodesk\AutoCAD 2026\acad.exe" /b "C:\Users\ThinkPad\Documents\VSCode\Academic-Projects\CompGraf\Automatizacion\testScript.scr"

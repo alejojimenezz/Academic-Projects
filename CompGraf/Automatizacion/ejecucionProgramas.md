@@ -14,3 +14,11 @@ Para el documento se selecciona el programa "Visual Studio Code".
 - **Archivo .bat:** Ejecuta el comando de *Destino* para abrir VSCode desde DOS.
 
 El [archivo de prueba](/CompGraf/Automatización/testFile.txt) fue creado y guardado cambiando al dirección de la propiedades `"Iniciar en"`
+
+## Archivo script
+
+Abreviatura = .scr
+
+En los script, los espacios, y saltos de línea, tienen el mismo comportamiento.
+
+En AutoCAD, para ejecutar scripts, se puede usar el comando `SCRIPT`
