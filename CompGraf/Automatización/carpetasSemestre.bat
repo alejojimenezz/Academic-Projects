@@ -1,20 +1,20 @@
-set /p semestre = Ingrese el semestre a cursar:
+set /p semestre=Ingrese el semestre a cursar:
 
 mkdir %semestre%
 cd %semestre%
 
-set /p materias = Cuantas materias va a cursar?
+set /p materias=Cuantas materias va a cursar?
 
-set i = 1
+set i=1
 
 :loop
-if %i% GTR %num% goto fin
+if %i% GTR %materias% goto fin
 
-set /p materia = Nombre de la materia %i%:
+set /p materia=Nombre de la materia %i%:
 
 mkdir "%materia%"
 
-set /a i = %i% + 1
+set /a i=%i%+1
 goto loop
 
 :fin
