@@ -6,7 +6,6 @@
 > [!TIP] Recordar:
 > - [X] Finalizar el programa con `Zoom - Extends`, para visualizar todo lo dibujado
 > - [X] Incorporar entrada de usuario para poner en funcionamiento el reloj
-> - [ ] Incorporar entrada de usuario para posicionar el reloj
 > - [X] Nombrar elementos como variable para facilitar manipulación
 > - [X] Agregar "_" a comandos para ejecución desde cualquier equipo configurado con cualquier idioma
 > - [X] Mejorar cálculos de los ángulos para ajuste inicial de la hora

@@ -199,7 +199,7 @@ Usando el comando `delay` para que el programa espere determinada cantidad de mi
 
 Con el comando `array` se pueden dibujar las líneas de los alrededor del cuerpo del reloj.
 
-- [ ] Definir manecillas de reloj como bloques
+- [X] Definir manecillas de reloj como bloques
 - [ ] Ver como sacar el día de la semana para colocar en el reloj
 - [X] Para entrega del documento
   - [X] Portada
