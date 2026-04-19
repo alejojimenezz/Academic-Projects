@@ -60,14 +60,23 @@
 )
 
 ;Funcion para simplificar actualizacion de texto (falta modificacion de entidades)
-(defun actualizarTexto (ent valor punto / nuevo)
-  (if ent
-    (progn
-      (entdel ent)
-      (command "_text" punto "5" "0" valor "")
-      (setq nuevo (entlast))
+(defun actualizarTextoEnt (ent valor)
+  (setq data (entget ent))
+  (setq nueva
+    (mapcar
+      (function
+        (lambda (item)
+          (if (= (car item) 1)
+            (cons 1 (itoa valor))
+            item
+          )
+        )
+      )
+      data
     )
   )
+  (entmod nueva)
+  (entupd ent)
 )
 
 ;Funcion / Comando RELOJ
@@ -172,10 +181,6 @@
         segunderoXs (/ 360 60.0)
   )
 
-  ;(print horarioXs)
-  ;(print minuteroXs)
-  ;(print segunderoXs)
-
   ;Ángulos iniciales
   (setq HAngIni (+ (* HH horarioXh) (* MM horarioXm) (* SS horarioXs)))
   (setq MAngIni (+ (* MM minuteroXm) (* SS minuteroXs)))
@@ -248,55 +253,43 @@
 
     (if (/= SS prevSS)
       (progn
-    	(entdel numSS)
-    	(command "_text" "56,62" "5" "0" SS "")
-    	(setq numSS (entlast))
-    	(setq prevSS SS)
+        (actualizarTextoEnt numSS SS)
+        (setq prevSS SS)
       )
     )
 
     (if (/= MM prevMM)
       (progn
-    	(entdel numMM)
-    	(command "_text" "46,62" "5" "0" MM "")
-    	(setq numMM (entlast))
-    	(setq prevMM MM)
+        (actualizarTextoEnt numMM MM)
+        (setq prevMM MM)
       )
     )
 
     (if (/= HH prevHH)
       (progn
-    	(entdel numHH)
-    	(command "_text" "36,62" "5" "0" HH "")
-    	(setq numHH (entlast))
-    	(setq prevHH HH)
+        (actualizarTextoEnt numHH HH)
+        (setq prevHH HH)
       )
     )
 
     (if (/= D prevD)
       (progn
-    	(entdel numD)
-    	(command "_text" "31,32" "5" "0" D "")
-    	(setq numD (entlast))
-    	(setq prevD D)
+        (actualizarTextoEnt numD D)
+        (setq prevD D)
       )
     )
 
     (if (/= M prevM)
       (progn
-    	(entdel numM)
-    	(command "_text" "41,32" "5" "0" M "")
-    	(setq numM (entlast))
-    	(setq prevM M)
+        (actualizarTextoEnt numM M)
+        (setq prevM M)
       )
     )
 
     (if (/= Y prevY)
       (progn
-    	(entdel numY)
-    	(command "_text" "52,32" "5" "0" Y "")
-    	(setq numY (entlast))
-    	(setq prevY Y)
+        (actualizarTextoEnt numY Y)
+        (setq prevY Y)
       )
     )
 
