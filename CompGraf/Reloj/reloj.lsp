@@ -102,11 +102,14 @@
   ;; (setq segundero (entlast))
 
   ;Manecillas definidas como bloques
-  (command "_pline" "48.5,50" "48.5,70" "51.5,70" "51.5,50" "")
+  (command "_circle" "50,50" 1.5)
+  (command "_pline" "48.5,50" "48.5,70" "50,72" "51.5,70" "51.5,50" "")
   (setq horario (entlast))
-  (command "_pline" "49,50" "49,85" "51,85" "51,50" "")
+  (command "_circle" "50,50" 1)
+  (command "_pline" "49,50" "49,85" "50,86" "51,85" "51,50" "")
   (setq minutero (entlast))
-  (command "_pline" "49.5,50" "49.5,90" "50.5,90" "50.5,50" "")
+  (command "_circle" "50,50" 0.5)
+  (command "_pline" "49.5,50" "49.5,90" "50,91" "50.5,90" "50.5,50" "")
   (setq segundero (entlast))
 
   ;(command "_extm" centro "50,50")
@@ -117,6 +120,21 @@
   (command "_array" "_l" "" "_po" "50,50" 12 360 "_y" "")
   (command "_line" "96,50" "98,50" "")
   (command "_array" "_l" "" "_po" "50,50" 60 360 "_y" "")
+
+  ;Números del 1 al 12
+  (setq radio 38)
+
+  (setq i 1)
+  (repeat 12
+    (setq ang (- (/ pi 2) (* i (/ (* 2 pi) 12))))
+    
+    (setq tx (+ 50 (* radio (cos ang))))
+    (setq ty (+ 50 (* radio (sin ang))))
+    
+    (command "_text" "_j" "_mc" (list tx ty) "3" "0" (itoa i) "")
+    
+    (setq i (+ i 1))
+  )
 
 
   ;Cuerpo digital
@@ -130,6 +148,8 @@
   (command "_line" "35,60" "65,60" "")
   (command "_line" "35,70" "65,70" "")
 
+  (command "_rectang" "34,71" "66,59")
+
   ;DDMMAAAA
   (command "_line" "30,30" "30,40" "")
   (command "_line" "40,30" "40,40" "")
@@ -139,6 +159,7 @@
   (command "_line" "30,30" "70,30" "")
   (command "_line" "30,40" "70,40" "")
 
+  (command "_rectang" "29,41" "71,29")
 
   ;Obtener fecha/hora
   (setq dateNow (getvar "cdate")) ;AAAAMMDD.HHMMSScseg
