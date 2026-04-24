@@ -59,7 +59,7 @@
   (entupd ent)
 )
 
-;Funcion para simplificar actualizacion de texto (falta modificacion de entidades)
+;Funcion para simplificar actualizacion de texto
 (defun actualizarTextoEnt (ent valor)
   (setq data (entget ent))
   (setq nueva

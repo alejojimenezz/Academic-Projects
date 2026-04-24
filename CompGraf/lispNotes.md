@@ -232,3 +232,22 @@ Son funciones destinadas a mejorar programas elaborados en LISP para ejecución 
 ```lisp
 (subst (cons 50 angulo) (assoc 50 manecilla) manecilla)
 ```
+
+## Siguientes trabajos
+
+- Automatización de alguna tarea usando DOS
+- XDATA y cuadros de diálogo
+  - Desarrollar aplicación con objetos dibujados
+  - Agregar datos a objetos
+  - Cuando seleccione un objeto, desplegar cuadro de dialogos `options` con características introducidas
+- Abrir caja de dialogo
+
+## Clase 23/04
+
+```LISP
+(entsel "Seleccione Objeto)
+(setq dentidad (entget <> (list "*")))
+(assoc -3 dentidad)
+(subst lo_nuevo lo_viejo en_donde)
+(-3 ())
+```
