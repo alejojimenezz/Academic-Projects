@@ -1,0 +1,21 @@
+mi dialogo : dialog {
+	label = "Ingreso de Datos";
+
+	: column {
+		: text {
+			label = "Nombre: ";
+		}
+
+		: edit_box {
+			key = "txtNombre";
+			edit_width = 30;
+		}
+
+		: toggle {
+			key = "chkActivo";
+			label = "Activo";
+		}
+
+		ok_cancel;
+	}
+}

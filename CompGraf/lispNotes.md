@@ -251,3 +251,15 @@ Son funciones destinadas a mejorar programas elaborados en LISP para ejecución 
 (subst lo_nuevo lo_viejo en_donde)
 (-3 ())
 ```
+
+## Trabajos pendientes
+
+Dibujo inventado o descargado (e.g edificio). Automatizado (e.g Mostrar que mantenimientos realizar a maquina segun la fecha y hora que lea el equipo) usando datos extendidos y cajas de dialogo (combinacion de temas)
+
+Dibujo de salon (inspirado en sala CAD) manual, determinados como bloques, combinando los elementos en un solo dibujo. Rutina que lea los archivos csv. Es decir, rutina que muestre datos en programas como excel.
+
+## Bloques y XDATA
+
+Los bloques copiados y pegados heredan los datos extendidos del bloque original
+
+> Buscar comandos tblsearch, y tblnext
