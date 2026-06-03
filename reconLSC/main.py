@@ -39,6 +39,30 @@ while cap.isOpened():
 
             #cv2.putText(frame, f"ref: {distancia(p['thumb_tip'], p['index_pip'])/ref}", (50, 100), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
 
+            finger_tips = [
+                'thumb_tip',
+                'index_tip',
+                'middle_tip',
+                'ring_tip',
+                'pinky_tip'
+            ]
+
+            h, w, _ = frame.shape
+
+            for finger in finger_tips:
+                x = int(p[finger].x * w)
+                y = int(p[finger].y * h)
+
+                cv2.circle(frame, (x, y), 5, (0, 0, 255), -1)
+
+                cv2.putText(frame,
+                            f"({x},{y})",
+                            (x + 10, y - 10),
+                            cv2.FONT_HERSHEY_SIMPLEX,
+                            0.4,
+                            (255,255,255),
+                            1)
+
     cv2.imshow('Reconocimiento LSC', frame)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
