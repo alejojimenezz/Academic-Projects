@@ -1,2 +1,10 @@
+.vscode/
+__pycahe__/
+*.pyc
 .venv
-.vscode
+
+.python-version
+*.toml
+uv.lock
+
+.zip
