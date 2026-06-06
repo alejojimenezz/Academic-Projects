@@ -20,7 +20,7 @@ Version 0.10.21
 
 Paquete de bibliotecas y herramientas de python enfocada en tecnicas de inteligencia artificial y aprendizaje automático. Usada, en este proyecto para la detección de puntos de referencia de la mano.
 
-![Puntos de la mano](/reconLSC/assets/keypoints.png)
+![Puntos de la mano](/assets/keypoints.png)
 
 ### [OpenCV](https://docs.opencv.org/4.x/d6/d00/tutorial_py_root.html) (cv2)
 
@@ -28,9 +28,33 @@ Paquete de bibliotecas y herramientas de python enfocada en tecnicas de intelige
 
 Version 4.13.0
 
-Open Source Computer Vision. Libreria de python aprovechada para capturar el video de la camara web, generando la interfaz gráfica básica del programa.
+Open Source Computer Vision. Libreria de python aprovechada para capturar el video de la camara web, generando la interfaz gráfica básica del programa, y limitar el área de video que analiza Mediapipe para reducir el ruido.
 
 ## Archivos
+
+### Estructura resumida
+
+```
+└── 📁reconLSC
+    └── 📁__pycache__
+    └── 📁.venv
+    └── 📁.vscode
+    └── 📁assets
+        ├── keypoints.png
+    ├── .python-version
+    ├── alphabet.py
+    ├── camTest.py
+    ├── dynamicTest.py
+    ├── handSideTest.py
+    ├── limitFrame.py
+    ├── main.py
+    ├── mainLED.py
+    ├── newLetterTest.py
+    ├── pipLibTest.py
+    ├── pyproject.toml
+    ├── README.md
+    └── uv.lock
+```
 
 ### Alfabeto - [alphabet.py](/alphabet.py)
 
