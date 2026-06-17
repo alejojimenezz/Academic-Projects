@@ -8,3 +8,6 @@ __pycahe__/
 uv.lock
 
 .zip
+
+*.jpg
+*.png
