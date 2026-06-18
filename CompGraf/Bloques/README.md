@@ -22,27 +22,29 @@
 
 ### Atributos
 
-1. Nombre
-2. Marca
+1. Nombre: Atributo constante
+2. Material
 3. Color
-4. Material
-5. Cantidad
-6. Precio
+4. Capacidad
+5. Marca (sin usar)
 
 ### Organización
 
-| Elemento   | Atributos               |
-| ---------- | ----------------------- |
-| BASE       | Nombre                  |
-| ESCRITORIO | Nombre, Material, Color |
-| MESA       | Nombre, Material, Color |
-| SILLA      | Nombre, Material, Color |
+| Elemento   | Atributos                          | Cantidad |
+| ---------- | ---------------------------------- | -------- |
+| BASE       | Nombre                             | 1        |
+| ESCRITORIO | Nombre, Material, Color            | 1        |
+| MESA       | Nombre, Material, Color, Capacidad | 8        |
+| SILLA      | Nombre, Color                      | 33       |
 
 ## Construcción
 
 ### Nombre de bloques
 
 1. BASE: salon
+2. ESCRITORIO: escritorioProfesor
+3. MESA: mesaEstudiantes
+4. SILLA: silla
 
 ## Archivos .CSV y .TXT
 
