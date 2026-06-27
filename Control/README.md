@@ -2,6 +2,25 @@
 
 > Robot auto balanceable MicroROS
 
+## Funcionamiento
+
+```mermaid
+flowchart TD
+
+    a["STM32"]
+    b["ESP32"]
+
+    A["Control PID"]
+    B["Cambio de parámetros"]
+
+    AA["C: Keil MDK / STM32CubeIDE"]
+    BB["C++: ArduinoIDE / PlatformIO"]
+    
+a --UART serial--- b
+A ~~~ B
+AA ~~~ BB
+```
+
 ## Recursos de apoyo
 
 ### [Página oficial](https://www.yahboom.net/study/SBR-microROS)
