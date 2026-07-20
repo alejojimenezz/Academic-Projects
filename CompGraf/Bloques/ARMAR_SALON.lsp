@@ -100,6 +100,17 @@
 (defun c:ARMARSALON (/ ESC PTO-BASE PTO-ESCRITORIO DATOS-MESAS OFFSETS-SILLAS
                        contadorSilla mesa pto rotM nom mat col cap ptoSilla off)
 
+  ;; Limpiar definiciones de bloque SIN USAR antes de importar de nuevo.
+  ;; Esto evita que se reutilice una version vieja/corrupta de un bloque
+  ;; (ej. "silla" autorreferenciado) que haya quedado guardada en este
+  ;; archivo .dwg de una corrida anterior fallida. OJO: solo purga bloques
+  ;; que no tengan ninguna referencia insertada en el dibujo -> si ya
+  ;; insertaste algo con el bloque corrupto antes y no lo borraste, esto
+  ;; no lo va a limpiar (borra esas inserciones primero, o mejor arranca
+  ;; en un dibujo nuevo en blanco).
+  (command "_.-PURGE" "_A" "*" "_N")
+  (command "_.-PURGE" "_A" "*" "_N")   ; segunda pasada por bloques anidados
+
   ;; Verificar que las rutas esten configuradas antes de seguir
   (if (not (and *RUTA-BASE* *RUTA-ESCRITORIO* *RUTA-MESA* *RUTA-SILLA*))
     (progn
@@ -129,7 +140,7 @@
     (list (cons "NOMBRE" "Salon_101")))
 
   ;; --------------------- 2. ESCRITORIO DEL PROFESOR ------------------------
-  (setq PTO-ESCRITORIO (P 30.0 40.0))
+  (setq PTO-ESCRITORIO (P 14.0 40.0))
   (InsertaBloque *RUTA-ESCRITORIO* PTO-ESCRITORIO ESC 0.0
     (list (cons "NOMBRE"   "Escritorio_Profesor")
           (cons "MATERIAL" "Madera")

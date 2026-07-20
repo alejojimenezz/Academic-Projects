@@ -108,48 +108,62 @@
     )
   )
 
-  (setq ESC 1.0)                         ; factor de escala de insercion
+  (setq ESC 1.0)                         ; factor de escala de insercion (tamano del bloque)
   (setq PTO-BASE (list 0.0 0.0 0.0))     ; esquina inf-izq del salon (ajustar)
+
+  ;; ---------------------------------------------------------------------
+  ;; FACTOR-COORD: TODAS las coordenadas de este script (mesas, sillas,
+  ;; escritorio) estan escritas en CENTIMETROS, tal como las medidas del
+  ;; boceto original. Si tu dibujo esta en milimetros, pon 10.0 aqui.
+  ;; Si tu dibujo esta en metros, pon 0.01. Si esta en centimetros, deja 1.0.
+  ;; Revisa el valor real con el comando UNITS o INSUNITS en AutoCAD.
+  ;; ---------------------------------------------------------------------
+  (setq FACTOR-COORD 10.0)   ; dibujo en Milimetros (INSUNITS=4), coordenadas del script en cm
+
+  (defun P (x y / )
+    (list (* x FACTOR-COORD) (* y FACTOR-COORD) 0.0)
+  )
 
   ;; --------------------- 1. BASE (contorno / piso del salon) --------------
   (InsertaBloque *RUTA-BASE* PTO-BASE ESC 0.0
     (list (cons "NOMBRE" "Salon_101")))
 
   ;; --------------------- 2. ESCRITORIO DEL PROFESOR ------------------------
-  (setq PTO-ESCRITORIO (list 30.0 40.0 0.0))
+  (setq PTO-ESCRITORIO (P 30.0 40.0))
   (InsertaBloque *RUTA-ESCRITORIO* PTO-ESCRITORIO ESC 0.0
     (list (cons "NOMBRE"   "Escritorio_Profesor")
           (cons "MATERIAL" "Madera")
           (cons "COLOR"    "Cafe")))
 
   ;; Silla del profesor (frente al escritorio, mirando hacia las mesas)
-  (InsertaBloque *RUTA-SILLA* (list 30.0 10.0 0.0) ESC (* pi 0.5)
+  (InsertaBloque *RUTA-SILLA* (P 30.0 10.0) ESC (* pi 0.5)
     (list (cons "NOMBRE" "Silla_Profesor")
           (cons "COLOR"  "Cafe")))
 
   ;; --------------------- 3. DATOS DE LAS 8 MESAS DE ESTUDIANTES ------------
   ;; Cada elemento: (Punto rotacion(rad) Nombre Material Color Capacidad)
-  ;; Distribucion generica 2 filas x 4 columnas -> AJUSTAR segun tus medidas
+  ;; Coordenadas en CENTIMETROS -> se escalan automaticamente via (P x y)
   (setq DATOS-MESAS
     (list
-      (list (list 150.0 300.0 0.0) 0.0 "Mesa_1" "Madera" "Cafe" "4")
-      (list (list 300.0 300.0 0.0) 0.0 "Mesa_2" "Madera" "Cafe" "4")
-      (list (list 450.0 300.0 0.0) 0.0 "Mesa_3" "Madera" "Cafe" "4")
-      (list (list 600.0 300.0 0.0) 0.0 "Mesa_4" "Madera" "Cafe" "4")
-      (list (list 150.0 480.0 0.0) 0.0 "Mesa_5" "Madera" "Cafe" "4")
-      (list (list 300.0 480.0 0.0) 0.0 "Mesa_6" "Madera" "Cafe" "4")
-      (list (list 450.0 480.0 0.0) 0.0 "Mesa_7" "Madera" "Cafe" "4")
-      (list (list 600.0 480.0 0.0) 0.0 "Mesa_8" "Madera" "Cafe" "4")
+      (list (P 150.0 300.0) 0.0 "Mesa_1" "Madera" "Cafe" "4")
+      (list (P 300.0 300.0) 0.0 "Mesa_2" "Madera" "Cafe" "4")
+      (list (P 450.0 300.0) 0.0 "Mesa_3" "Madera" "Cafe" "4")
+      (list (P 600.0 300.0) 0.0 "Mesa_4" "Madera" "Cafe" "4")
+      (list (P 150.0 480.0) 0.0 "Mesa_5" "Madera" "Cafe" "4")
+      (list (P 300.0 480.0) 0.0 "Mesa_6" "Madera" "Cafe" "4")
+      (list (P 450.0 480.0) 0.0 "Mesa_7" "Madera" "Cafe" "4")
+      (list (P 600.0 480.0) 0.0 "Mesa_8" "Madera" "Cafe" "4")
     )
   )
 
   ;; --------------------- 4. OFFSETS DE LAS 4 SILLAS POR MESA ---------------
+  ;; Tambien en centimetros -> se escalan con FACTOR-COORD
   (setq OFFSETS-SILLAS
     (list
-      (list -30.0  30.0 pi)        ; arriba-izquierda, mirando hacia abajo
-      (list  30.0  30.0 pi)        ; arriba-derecha
-      (list -30.0 -30.0 0.0)       ; abajo-izquierda, mirando hacia arriba
-      (list  30.0 -30.0 0.0)       ; abajo-derecha
+      (list (* -30.0 FACTOR-COORD) (*  30.0 FACTOR-COORD) pi)   ; arriba-izquierda
+      (list (*  30.0 FACTOR-COORD) (*  30.0 FACTOR-COORD) pi)   ; arriba-derecha
+      (list (* -30.0 FACTOR-COORD) (* -30.0 FACTOR-COORD) 0.0)  ; abajo-izquierda
+      (list (*  30.0 FACTOR-COORD) (* -30.0 FACTOR-COORD) 0.0)  ; abajo-derecha
     )
   )
 
