@@ -94,11 +94,38 @@
   (princ)
 )
 
-;; ---------------------------------------------------------------------------
-;; COMANDO PRINCIPAL: ARMARSALON
-;; ---------------------------------------------------------------------------
-(defun c:ARMARSALON (/ ESC PTO-BASE PTO-ESCRITORIO DATOS-MESAS OFFSETS-SILLAS
-                       contadorSilla mesa pto rotM nom mat col cap ptoSilla off)
+
+;;; ---------------------------------------------------------------------------
+;;; COMANDO PRINCIPAL: ARMARSALON
+;;;
+;;; ESTRUCTURA DEL SALON (de izquierda a derecha, segun el boceto):
+;;;   [Col1: 6 sillas] [Zona1: 3 mesas] [Col2+Col3: 6+6 sillas] [Zona2: 3 mesas]
+;;;   [Col4+Col5: 4+4 sillas] [Zona3: 2 mesas] [Col6: 4 sillas]
+;;;
+;;;   Las sillas de cada columna se apilan verticalmente (una fila detras de
+;;;   otra), separadas por ESPACIADO-SILLA cm.
+;;;   Las mesas de cada zona se apilan verticalmente "pegadas" (una detras de
+;;;   otra sin espacio), cada una ocupa PROF-MESA cm de profundidad.
+;;;
+;;;   Todas las coordenadas X y Y de esta seccion estan en CENTIMETROS y se
+;;;   escalan automaticamente segun FACTOR-COORD (ver mas abajo) para que
+;;;   calcen con las unidades reales de tu dibujo (mm, cm, m, etc).
+;;; ---------------------------------------------------------------------------
+(defun c:ARMARSALON (/ ESC PTO-BASE FACTOR-COORD ANCHO-SILLA PROF-SILLA
+                       ANCHO-MESA PROF-MESA ESPACIADO-SILLA Y-ORIGEN
+                       ROT-DER ROT-IZQ contadorSilla contadorMesa
+                       InsertaColumnaSillas InsertaZonaMesas)
+
+  ;; Limpiar definiciones de bloque SIN USAR antes de importar de nuevo.
+  ;; Esto evita que se reutilice una version vieja/corrupta de un bloque
+  ;; (ej. "silla" autorreferenciado) que haya quedado guardada en este
+  ;; archivo .dwg de una corrida anterior fallida. OJO: solo purga bloques
+  ;; que no tengan ninguna referencia insertada en el dibujo -> si ya
+  ;; insertaste algo con el bloque corrupto antes y no lo borraste, esto
+  ;; no lo va a limpiar (borra esas inserciones primero, o mejor arranca
+  ;; en un dibujo nuevo en blanco).
+  (command "_.-PURGE" "_A" "*" "_N")
+  (command "_.-PURGE" "_A" "*" "_N")   ; segunda pasada por bloques anidados
 
   ;; Verificar que las rutas esten configuradas antes de seguir
   (if (not (and *RUTA-BASE* *RUTA-ESCRITORIO* *RUTA-MESA* *RUTA-SILLA*))
@@ -124,79 +151,130 @@
     (list (* x FACTOR-COORD) (* y FACTOR-COORD) 0.0)
   )
 
+  ;; ---------------------------------------------------------------------
+  ;; PARAMETROS DE TAMANO Y ESPACIADO (todo en centimetros)
+  ;; ---------------------------------------------------------------------
+  (setq ANCHO-SILLA 45.0)
+  (setq PROF-SILLA  50.0)
+  (setq ANCHO-MESA  120.0)
+  (setq PROF-MESA   140.0)
+  (setq ESPACIADO-SILLA 66.0)   ; separacion entre sillas de una misma columna (50 + 10 gap)
+
+  ;; Y-ORIGEN: altura (en cm) donde arranca la primera silla/mesa de cada
+  ;; columna/zona, bajando desde ahi. AJUSTA este numero despues de ver el
+  ;; primer resultado en pantalla, para que quede bien ubicado dentro del
+  ;; contorno del bloque BASE.
+  (setq Y-ORIGEN 650.0)
+  (setq Y-ORIGEN-2 695.0)
+
+  ;; Rotaciones (radianes) para que la silla "mire" hacia la mesa. Como no
+  ;; se conoce la orientacion original de tu bloque SILLA, estos valores son
+  ;; un punto de partida -> si en el resultado las sillas quedan mirando al
+  ;; reves, cambia ROT-DER y ROT-IZQ (prueba con 0, (/ pi 2), pi, (* 1.5 pi)).
+  (setq ROT-DER (* 1.5 pi))          ; silla mirando hacia la derecha (+X)
+  (setq ROT-IZQ (/ pi 2))           ; silla mirando hacia la izquierda (-X)
+
+  (setq contadorSilla 1)
+  (setq contadorMesa 1)
+
+  ;; ---------------------------------------------------------------------
+  ;; FUNCION: inserta una columna vertical de N sillas
+  ;;   xCM        : posicion X del centro de la columna (cm)
+  ;;   n          : cantidad de sillas
+  ;;   rot        : rotacion de cada silla (radianes)
+  ;;   colorSilla : valor del atributo COLOR
+  ;; ---------------------------------------------------------------------
+  (defun InsertaColumnaSillas (xCM n rot colorSilla / i yCM)
+    (setq i 0)
+    (repeat n
+      (setq yCM (- Y-ORIGEN (* i ESPACIADO-SILLA)))
+      (InsertaBloque *RUTA-SILLA* (P xCM yCM) ESC rot
+        (list (cons "NOMBRE" (strcat "Silla_" (itoa contadorSilla)))
+              (cons "COLOR"  colorSilla)))
+      (setq contadorSilla (1+ contadorSilla))
+      (setq i (1+ i))
+    )
+  )
+  (defun InsertaColumnaSillas-2 (xCM n rot colorSilla / i yCM)
+    (setq i 0)
+    (repeat n
+      (setq yCM (- Y-ORIGEN-2 (* i ESPACIADO-SILLA)))
+      (InsertaBloque *RUTA-SILLA* (P xCM yCM) ESC rot
+        (list (cons "NOMBRE" (strcat "Silla_" (itoa contadorSilla)))
+              (cons "COLOR"  colorSilla)))
+      (setq contadorSilla (1+ contadorSilla))
+      (setq i (1+ i))
+    )
+  )
+
+  ;; ---------------------------------------------------------------------
+  ;; FUNCION: inserta una zona vertical de N mesas "pegadas" (una detras
+  ;; de otra en profundidad, sin espacio entre ellas)
+  ;;   xCM : posicion X del centro de la zona (cm)
+  ;;   n   : cantidad de mesas
+  ;; ---------------------------------------------------------------------
+  (defun InsertaZonaMesas (xCM n / i yCM)
+    (setq i 0)
+    (repeat n
+      (setq yCM (- Y-ORIGEN (+ (* i PROF-MESA) (/ PROF-MESA 2.0))))
+      (InsertaBloque *RUTA-MESA* (P xCM yCM) ESC 0.0
+        (list (cons "NOMBRE"    (strcat "Mesa_" (itoa contadorMesa)))
+              (cons "MATERIAL"  "Madera")
+              (cons "COLOR"     "Cafe")
+              (cons "CAPACIDAD" "4")))
+      (setq contadorMesa (1+ contadorMesa))
+      (setq i (1+ i))
+    )
+  )
+
   ;; --------------------- 1. BASE (contorno / piso del salon) --------------
   (InsertaBloque *RUTA-BASE* PTO-BASE ESC 0.0
     (list (cons "NOMBRE" "Salon_101")))
 
   ;; --------------------- 2. ESCRITORIO DEL PROFESOR ------------------------
-  (setq PTO-ESCRITORIO (P 30.0 40.0))
-  (InsertaBloque *RUTA-ESCRITORIO* PTO-ESCRITORIO ESC 0.0
+  (InsertaBloque *RUTA-ESCRITORIO* (P 14.0 70.0) ESC 0.0
     (list (cons "NOMBRE"   "Escritorio_Profesor")
           (cons "MATERIAL" "Madera")
           (cons "COLOR"    "Cafe")))
 
   ;; Silla del profesor (frente al escritorio, mirando hacia las mesas)
-  (InsertaBloque *RUTA-SILLA* (P 30.0 10.0) ESC (* pi 0.5)
+  (InsertaBloque *RUTA-SILLA* (P 41.0 13.0) ESC 0.0
     (list (cons "NOMBRE" "Silla_Profesor")
           (cons "COLOR"  "Cafe")))
 
-  ;; --------------------- 3. DATOS DE LAS 8 MESAS DE ESTUDIANTES ------------
-  ;; Cada elemento: (Punto rotacion(rad) Nombre Material Color Capacidad)
-  ;; Coordenadas en CENTIMETROS -> se escalan automaticamente via (P x y)
-  (setq DATOS-MESAS
-    (list
-      (list (P 150.0 300.0) 0.0 "Mesa_1" "Madera" "Cafe" "4")
-      (list (P 300.0 300.0) 0.0 "Mesa_2" "Madera" "Cafe" "4")
-      (list (P 450.0 300.0) 0.0 "Mesa_3" "Madera" "Cafe" "4")
-      (list (P 600.0 300.0) 0.0 "Mesa_4" "Madera" "Cafe" "4")
-      (list (P 150.0 480.0) 0.0 "Mesa_5" "Madera" "Cafe" "4")
-      (list (P 300.0 480.0) 0.0 "Mesa_6" "Madera" "Cafe" "4")
-      (list (P 450.0 480.0) 0.0 "Mesa_7" "Madera" "Cafe" "4")
-      (list (P 600.0 480.0) 0.0 "Mesa_8" "Madera" "Cafe" "4")
-    )
-  )
+  ;; --------------------- 3. COLUMNAS DE SILLAS + ZONAS DE MESAS ------------
+  ;; Posiciones X (cm) calculadas a partir de tus medidas: 120 / 127 / 140
+  ;; para los grupos de sillas, y 120 (ancho de 1 mesa) para cada zona.
+  ;;   Col1(120) Zona1(120) Col2+3(127) Zona2(120) Col4+5(140) Zona3(120) Col6(103)
+  ;;   0-120     120-240    240-367     367-487    487-627     627-747    747-850
 
-  ;; --------------------- 4. OFFSETS DE LAS 4 SILLAS POR MESA ---------------
-  ;; Tambien en centimetros -> se escalan con FACTOR-COORD
-  (setq OFFSETS-SILLAS
-    (list
-      (list (* -30.0 FACTOR-COORD) (*  30.0 FACTOR-COORD) pi)   ; arriba-izquierda
-      (list (*  30.0 FACTOR-COORD) (*  30.0 FACTOR-COORD) pi)   ; arriba-derecha
-      (list (* -30.0 FACTOR-COORD) (* -30.0 FACTOR-COORD) 0.0)  ; abajo-izquierda
-      (list (*  30.0 FACTOR-COORD) (* -30.0 FACTOR-COORD) 0.0)  ; abajo-derecha
-    )
-  )
+  ;; Columna 1 (sola, 6 sillas) - mira hacia la derecha (Zona1 esta a su derecha)
+  (InsertaColumnaSillas-2 40.0 6 ROT-DER "Azul")
 
-  ;; --------------------- 5. INSERTAR CADA MESA + SUS 4 SILLAS --------------
-  (setq contadorSilla 1)
-  (foreach mesa DATOS-MESAS
-    (setq pto  (nth 0 mesa)
-          rotM (nth 1 mesa)
-          nom  (nth 2 mesa)
-          mat  (nth 3 mesa)
-          col  (nth 4 mesa)
-          cap  (nth 5 mesa))
+  ;; Zona 1 (3 mesas)
+  (InsertaZonaMesas 95.0 3)
 
-    (InsertaBloque *RUTA-MESA* pto ESC rotM
-      (list (cons "NOMBRE"     nom)
-            (cons "MATERIAL"   mat)
-            (cons "COLOR"      col)
-            (cons "CAPACIDAD"  cap)))
+  ;; Columnas 2 y 3 (par, 6 sillas cada una)
+  ;; Col2 mira hacia la izquierda (Zona1), Col3 mira hacia la derecha (Zona2)
+  (InsertaColumnaSillas 272.0 6 ROT-IZQ "Azul")
+  (InsertaColumnaSillas-2 285.0 6 ROT-DER "Azul")
 
-    (foreach off OFFSETS-SILLAS
-      (setq ptoSilla (list (+ (car pto) (nth 0 off))
-                           (+ (cadr pto) (nth 1 off))
-                           0.0))
-      (InsertaBloque *RUTA-SILLA* ptoSilla ESC (nth 2 off)
-        (list (cons "NOMBRE" (strcat "Silla_" (itoa contadorSilla)))
-              (cons "COLOR"  "Azul")))
-      (setq contadorSilla (1+ contadorSilla))
-    )
-  )
+  ;; Zona 2 (3 mesas)
+  (InsertaZonaMesas 342.0 3)
+
+  ;; Columnas 4 y 5 (par, 4 sillas cada una)
+  (InsertaColumnaSillas 520.0 6 ROT-IZQ "Azul")
+  (InsertaColumnaSillas-2 540.0 4 ROT-DER "Azul")
+
+  ;; Zona 3 (2 mesas)
+  (InsertaZonaMesas 602.0 2)
+
+  ;; Columna 6 (sola, 4 sillas) - mira hacia la izquierda (Zona3 esta a su izquierda)
+  (InsertaColumnaSillas 780.0 4 ROT-IZQ "Azul")
 
   (princ (strcat "\nSalon armado -> 1 BASE, 1 ESCRITORIO, "
-                 (itoa (length DATOS-MESAS)) " MESAS, "
-                 (itoa contadorSilla) " SILLAS."))
+                 (itoa (1- contadorMesa)) " MESAS, "
+                 (itoa contadorSilla) " SILLAS (incluye la del profesor)."))
   (princ)
 )
 
