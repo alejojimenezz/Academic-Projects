@@ -1,0 +1,44 @@
+BLOQUE    NOMBRE    MATERIAL   COLOR   CAPACIDAD   X   Y
+SILLA_V2  Silla     Metal      Azul               178004520
+SILLA_V2  Silla     Metal      Azul               178005180
+SILLA_V2  Silla     Metal      Azul               178005840
+SILLA_V2  Silla     Metal      Azul               178006500
+MESA      Mesa      Madera     Gris               460204400
+MESA      Mesa      Madera     Gris               460205800
+SILLA_V2  Silla     Metal      Azul               154004970
+SILLA_V2  Silla     Metal      Azul               154005630
+SILLA_V2  Silla     Metal      Azul               154006290
+SILLA_V2  Silla     Metal      Azul               154006950
+SILLA_V2  Silla     Metal      Azul               152003200
+SILLA_V2  Silla     Metal      Azul               152003860
+SILLA_V2  Silla     Metal      Azul               152004520
+SILLA_V2  Silla     Metal      Azul               152005180
+SILLA_V2  Silla     Metal      Azul               152005840
+SILLA_V2  Silla     Metal      Azul               152006500
+MESA      Mesa      Madera     Gris               434203000
+MESA      Mesa      Madera     Gris               434204400
+MESA      Mesa      Madera     Gris               434205800
+SILLA_V2  Silla     Metal      Azul               128503650
+SILLA_V2  Silla     Metal      Azul               128504310
+SILLA_V2  Silla     Metal      Azul               128504970
+SILLA_V2  Silla     Metal      Azul               128505630
+SILLA_V2  Silla     Metal      Azul               128506290
+SILLA_V2  Silla     Metal      Azul               128506950
+SILLA_V2  Silla     Metal      Azul               127203200
+SILLA_V2  Silla     Metal      Azul               127203860
+SILLA_V2  Silla     Metal      Azul               127204520
+SILLA_V2  Silla     Metal      Azul               127205180
+SILLA_V2  Silla     Metal      Azul               127205840
+SILLA_V2  Silla     Metal      Azul               127206500
+MESA      Mesa      Madera     Gris               4 9503000
+MESA      Mesa      Madera     Gris               4 9504400
+MESA      Mesa      Madera     Gris               4 9505800
+SILLA_V2  Silla     Metal      Azul               1 4003650
+SILLA_V2  Silla     Metal      Azul               1 4004310
+SILLA_V2  Silla     Metal      Azul               1 4004970
+SILLA_V2  Silla     Metal      Azul               1 4005630
+SILLA_V2  Silla     Metal      Azul               1 4006290
+SILLA_V2  Silla     Metal      Azul               1 4006950
+SILLA_V2  Silla     Metal      Cafe               1 410 130
+ESCRITORIOEscritorioMadera     Cafe               1 140 700
+BASE      Contorno  Ladrillo   Blanco            33   0   0
