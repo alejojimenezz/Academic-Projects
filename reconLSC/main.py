@@ -90,7 +90,7 @@ while cap.isOpened():
                     x = int(p[finger].x * w)
                     y = int(p[finger].y * h)
 
-                    cv2.circle(frame, (x, y), 5, (255, 0, 0), -1)
+                    # cv2.circle(frame, (x, y), 5, (255, 0, 0), -1)
 
                     cv2.putText(frame,
                                 f"({x},{y})",
