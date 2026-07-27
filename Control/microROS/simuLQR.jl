@@ -92,7 +92,7 @@ end
 #
 #    Orden de estados: [pos, vel, ángulo, vel_ang, giro, vel_giro]
 # ------------------------------------------------------------
-peso_posicion = 7700.0   # qué tan fuerte corrige desviaciones de posición
+peso_posicion = 200.0   # qué tan fuerte corrige desviaciones de posición
 peso_velocidad = 0.0      # normalmente se deja en 0 (no se penaliza directo)
 peso_angulo = 0.0      # OJO: en el original está en 0 porque el peso fuerte
 # ya lo pone A_43/A_23 de forma natural. Si tu robot
@@ -127,10 +127,7 @@ PWM_max = 2600   # TODO: confirma el límite real de PWM_Limit en tu firmware
 u_max = (PWM_max / Ratio_accel) * Control_Frequency
 @printf "\nu_max calibrado contra el firmware: %.4f\n" u_max
 
-# R_lqr = [1.0  0.0;
-#             0.0  1.0]
-
-R_lqr = diagm[1/u_max^2 0; 0 1/u_max^2]     # regla de Bryson con el u_max correcto
+R_lqr = diagm([1/u_max^2, 1/u_max^2])     # regla de Bryson con el u_max correcto
 # si al simular ves que el PWM sigue
 # saturando, sube R_lqr manualmente
 # (multiplícalo por 2, 5, 10...)

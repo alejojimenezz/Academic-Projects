@@ -76,8 +76,16 @@ Kd_f = (2*zeta*wn) / K
 @printf "Kp_f = %.4f  N·m/rad\n" Kp_f
 @printf "Kd_f = %.4f  N·m·s/rad\n" Kd_f
 
+# Raíces de una ecuación cuadrática s² + b·s + c = 0 (evita depender de Polynomials.jl)
+function raices_cuadratica(b, c)
+    disc = Complex(b^2 - 4c)
+    s1 = (-b + sqrt(disc)) / 2
+    s2 = (-b - sqrt(disc)) / 2
+    return [s1, s2]
+end
+
 # Verificación: polos en lazo cerrado
-p_cl = roots([1, K*Kd_f, K*Kp_f - a2])
+p_cl = raices_cuadratica(K*Kd_f, K*Kp_f - a2)
 println("\nPolos en lazo cerrado: ", p_cl)
 
 # ------------------------------------------------------------
@@ -92,7 +100,7 @@ polos_imag_1 = Float64[]
 polos_imag_2 = Float64[]
 
 for kp in Kp_range
-    p = roots([1, K*Kd_f, K*kp - a2])
+    p = raices_cuadratica(K*Kd_f, K*kp - a2)
     push!(polos_reales_1, real(p[1]));
     push!(polos_imag_1, imag(p[1]))
     push!(polos_reales_2, real(p[2]));
