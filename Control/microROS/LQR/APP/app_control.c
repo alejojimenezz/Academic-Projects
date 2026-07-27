@@ -6,12 +6,12 @@ float x_pose=0, x_speed, angle_x, gyro_x, angle_z=0, gyro_z, last_angle=0;
 float L_accel, R_accel, velocity_L, velocity_R;
 
 //LQR状态反馈系数 LQR state feedback coefficient
-float K1= 0, K2= -65.1567, K3=-354.671, K4=-35.456 , K5=15.8114, K6=3.95173;
-float K5OLD=15.8114, K6OLD=3.95173;
+float K1= -3.3991, K2= -14.5204, K3=-300.4103, K4=-15.3126, K5=0.06798, K6=0.26011;
+float K5OLD=0.11775, K6OLD=0.343274;
 
 
 //目标状态值 Target state value
-float Target_x_speed=0, Target_angle_x=0.0349, Target_gyro_z=0;
+float Target_x_speed=0, Target_angle_x=0.2, Target_gyro_z=0;
 
 //速度换算成PWM占空比的比例系数 Proportional coefficient for converting speed to PWM duty cycle
 float Ratio_accel=2400;	
@@ -35,10 +35,14 @@ void EXTI15_10_IRQHandler(void)
 		Get_Velocity_Form_Encoder(Encoder_Left,Encoder_Right); //获取速度 Obtain speed
 				
 		x_speed=(Encoder_Left+Encoder_Right)/2*PI*Diameter_67/1000/1560*Control_Frequency; // 除1000是mm转m  Except for 1000 mm to m
-		x_pose+=x_speed/Control_Frequency;
 		
-		if(x_pose > 0.15f)  x_pose = 0.15f;
-		if(x_pose < -0.15f) x_pose = -0.15f;
+//		x_pose+=x_speed/Control_Frequency;
+//		
+//		if(x_pose > 0.1f)  x_pose = 0.1f;
+//		if(x_pose < -0.1f) x_pose = -0.1f;
+		
+		x_pose = x_pose * 0.9f + x_speed / Control_Frequency;
+		
 		//获取倾角(rad)、角速度(rad/s)  Obtain inclination angle (rad) and angular velocity (rad/s)
 		angle_x=Angle_Balance/180*PI;
 		gyro_x=(angle_x-last_angle)*Control_Frequency;
