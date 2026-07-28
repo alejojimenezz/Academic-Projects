@@ -14,6 +14,9 @@
       - [**FlyMcu**](#flymcu)
       - [**Keil uVision 5**](#keil-uvision-5)
     - [Aplicación movil](#aplicación-movil)
+  - [Información adicional previo a diseños](#información-adicional-previo-a-diseños)
+    - [Datasheet de motor](#datasheet-de-motor)
+  - [Especificaciones del motor — MD520Z30\_12V (JGB37-520, reducción 30:1)](#especificaciones-del-motor--md520z30_12v-jgb37-520-reducción-301)
   - [Controlador LQR](#controlador-lqr)
     - [Constantes K de fábrica](#constantes-k-de-fábrica)
     - [Constantes K diseñados](#constantes-k-diseñados)
@@ -57,7 +60,8 @@ IDE para las ediciones de los controladores, y compilación de los proyectos.
    > El archivo que abre el proyecto en el software Keil uVision es de extensión `.uvprojx`, el cual se encuentra en la carpeta "USER" de los proyectos.
 2. Ejecutar el comando `Options for target`, el cual abre la siguiente ventana:
 ![Keil Screenshot](/Control/microROS/KeilSS_3.jpeg)
-En esta ventana se debe configurar el `ARM Compiler` que se haya descargado en la instalación del software (Si se siguieron los pasos correctamente, debería incluir dicho compilador, de lo contrario, se puede descargar por aparte en la página oficial del fabricante)
+En esta ventana se debe configurar el `ARM Compiler` que se haya descargado en la instalación del software (Si se siguieron los pasos correctamente, debería incluir dicho compilador, de lo contrario, se puede descargar por aparte en la página oficial del fabricante).
+Dado el caso que se trabaje un proyecto de más de 32 kB se puede generar un error de límite. Para solucionar el error del límite de 32 KB al compilar en Keil μVision, se tiene un [video aportado por el compañero Dilan Mateo Torres](https://drive.google.com/file/d/1aDQ606UDcnHcJXGWyVou6KkvVhYamyV4/view), con este procedimiento podrán compilar proyectos más grandes usando la Community Edition, sin necesidad de obtener una licencia de pago o de migrar todo el proyecto a STMicroelectronics Cube IDE.
 3. Despues de hacer las ediciones necesarias a los códigos, se podrá ejecutar el comando `Build`, para la reconstrucción del proyecto, y obtener el archivo .hex que requiere el software FlyMcu.
 
 ### Aplicación movil
@@ -86,6 +90,33 @@ Se tiene tambien otras dos vistas de interés entre la aplicación, para la sint
 ![appScreenshot2](/Control/microROS/appSS2_ES.jpeg)
 ![appScreenshot3](/Control/microROS/appSS3_ES.jpeg)
 
+## Información adicional previo a diseños
+
+### Datasheet de motor
+
+## Especificaciones del motor — MD520Z30_12V (JGB37-520, reducción 30:1)
+
+| Parámetro                                                 | Valor                          |
+| --------------------------------------------------------- | ------------------------------ |
+| Modelo                                                    | MD520Z30_12V                   |
+| Voltaje nominal                                           | 12 V                           |
+| Tipo de motor                                             | Escobillas (imán permanente)   |
+| Eje de salida                                             | 6 mm, tipo D excéntrico        |
+| Reducción de engranajes                                   | 30:1                           |
+| Velocidad antes de reducción                              | 11000 RPM                      |
+| Velocidad después de reducción                            | 333 ± 10 RPM                   |
+| Torque nominal                                            | 3.3 kg·cm                      |
+| Torque de arranque (stall)                                | 4.8 kg·cm                      |
+| Corriente nominal                                         | 0.3 A                          |
+| Corriente de arranque (stall)                             | 3 A                            |
+| Potencia nominal                                          | ≤ 4 W                          |
+| Peso del motor                                            | 150 g ± 1 g                    |
+| **Tipo de encoder**                                       | Hall incremental, 2 fases (AB) |
+| **Voltaje de alimentación encoder**                       | 3.3–5 V                        |
+| **Pulsos por vuelta (motor, un canal)**                   | 11                             |
+| **Cuentas por vuelta (eje de salida, decodificación x4)** | 30 × 11 × 4 = **1320**         |
+| Interfaz                                                  | PH2.0, 6 pines                 |
+
 ## Controlador LQR
 
 ### Constantes K de fábrica
@@ -101,6 +132,8 @@ float K5OLD=15.8114, K6OLD=15.8114;
 float K1= -3.3991, K2= -14.5204, K3=-300.4103, K4=-15.3126, K5=0.06798, K6=0.26011;
 float K5OLD=0.11775, K6OLD=0.343274;
 ```
+
+![Control LQR](/Control/microROS/LQR.gif)
 
 ## Controlador PID
 
@@ -139,3 +172,5 @@ float Balance_Kd =0.864; //0-2 Range 0-2
 float Velocity_Kp=71.95; //0-72 Range 0-72 6000
 float Velocity_Ki=44.97;  //kp/200
 ```
+
+![Control PID](/Control/microROS/PID.gif)
