@@ -2,8 +2,7 @@
 
 > Yahboom microROS - Robot de auto-balance
 
-> [!NOTE]
-> **Integrantes:**
+> [!NOTE] Estudiantes
 > - Alejandro Jiménez Zabala
 > - Jose Luis Ocoro Banguera
 
@@ -17,7 +16,7 @@
     - [Aplicación movil](#aplicación-movil)
   - [Información adicional previo a diseños](#información-adicional-previo-a-diseños)
     - [Datasheet de motor](#datasheet-de-motor)
-  - [Especificaciones del motor — MD520Z30\_12V (JGB37-520, reducción 30:1)](#especificaciones-del-motor--md520z30_12v-jgb37-520-reducción-301)
+    - [Parámetros físicos](#parámetros-físicos)
   - [Controlador LQR](#controlador-lqr)
     - [Constantes K de fábrica](#constantes-k-de-fábrica)
     - [Constantes K diseñados](#constantes-k-diseñados)
@@ -45,7 +44,7 @@ Software para subir los archivos compilados .hex a la tarjeta STM32 del robot. P
 1. `EnumPort` para actualizar la lista de puertos USB dado el caso que no reconozca automáticamente la conexión por USB al STM32.
 2. Seleccionar el puerto al que está conectado el robot (`USB-SERIAL CH340K`).
 3. En `...` seleccionar el archivo .hex que se desea probar en la ruta que está guardado en el computador.
-   > [!WARNING]
+   > [!WARNING] Tener en cuenta:
    > Los archivos .hex son guardados en la carpeta "OBJ" de las carpetas de los proyectos **despues** de ser compilados.
 4. Pasar a la pestaña de opciones `STM ISP`
 5. En el menú desplegable seleccionar la opción `Reset@DTR Low(<-3V),ISP@RTS High`
@@ -57,15 +56,15 @@ IDE para las ediciones de los controladores, y compilación de los proyectos.
 ![Keil Screenshot](/Control/microROS/KeilSS_2.jpeg)
 
 1. En en el boton de la barra superior `Project` se encuentra la opción para abrir un proyecto trabajado como los descargados por el fabricante.
-   > [!WARNING]
+   > [!WARNING] Tener en cuenta:
    > El archivo que abre el proyecto en el software Keil uVision es de extensión `.uvprojx`, el cual se encuentra en la carpeta "USER" de los proyectos.
 2. Ejecutar el comando `Options for target`, el cual abre la siguiente ventana:
 ![Keil Screenshot](/Control/microROS/KeilSS_3.jpeg)
 En esta ventana se debe configurar el `ARM Compiler` que se haya descargado en la instalación del software (Si se siguieron los pasos correctamente, debería incluir dicho compilador, de lo contrario, se puede descargar por aparte en la página oficial del fabricante).
 Dado el caso que se trabaje un proyecto de más de 32 kB se puede generar un error de límite. Para solucionar el error del límite de 32 KB al compilar en Keil μVision, se tiene un [video aportado por el compañero Dilan Mateo Torres](https://drive.google.com/file/d/1aDQ606UDcnHcJXGWyVou6KkvVhYamyV4/view), con este procedimiento podrán compilar proyectos más grandes usando la Community Edition, sin necesidad de obtener una licencia de pago o de migrar todo el proyecto a STMicroelectronics Cube IDE.
-1. Despues de hacer las ediciones necesarias a los códigos, se podrá ejecutar el comando `Build`, para la reconstrucción del proyecto, y obtener el archivo .hex que requiere el software FlyMcu.
+3. Despues de hacer las ediciones necesarias a los códigos, se podrá ejecutar el comando `Build`, para la reconstrucción del proyecto, y obtener el archivo .hex que requiere el software FlyMcu.
 
-> [!NOTE]
+> [!NOTE] Nota:
 > El procedimiento de compilado y flasheo de proyectos puede apreciarse en el siguiente [video](https://drive.google.com/file/d/1oRsazugIKfS8wx2SyLWWru4Yocm-LB1J/view?usp=sharing).
 
 ### Aplicación movil
@@ -86,7 +85,7 @@ Para poder hacer pruebas de Bluetooth del robot, se deben conceder los permisos 
 
 Ya dentro de la aplicación, se podrá presionar el botón `Buscar Bluetooth`, seguido del botón `Conectar`, al mostrar en el recuadro central de la barra superior el nombre del equipo (en el caso de la imágen "YahBoom_BL") significará que se pudo conectar satisfactoriamente, y se podrán controlar los movimientos del robot usando el celular.
 
-> [!DANGER]
+> [!DANGER] Ojo:
 > Si se encuentra en la cercanía de otro equipo robot MicroROS, con características de conexión bluetooth similares, se podrían generar interferencias de conexión complicando el manejo con el celular
 
 Se tiene tambien otras dos vistas de interés entre la aplicación, para la sintonización PID, y para la visualización de forma de onda:
@@ -98,7 +97,7 @@ Se tiene tambien otras dos vistas de interés entre la aplicación, para la sint
 
 ### Datasheet de motor
 
-## Especificaciones del motor — MD520Z30_12V (JGB37-520, reducción 30:1)
+Modelo MD520Z30_12V (JGB37-520, reducción 30:1)
 
 | Parámetro                                                 | Valor                          |
 | --------------------------------------------------------- | ------------------------------ |
@@ -121,7 +120,24 @@ Se tiene tambien otras dos vistas de interés entre la aplicación, para la sint
 | **Cuentas por vuelta (eje de salida, decodificación x4)** | 30 × 11 × 4 = **1320**         |
 | Interfaz                                                  | PH2.0, 6 pines                 |
 
+### Parámetros físicos
+
+Los siguientes parámetros físicos fueron obtenidos de datos de simulación y código proporcionado por el fabricante.
+
+| Parámetro                  | Símbolo             | Valor                      |
+| -------------------------- | ------------------- | -------------------------- |
+| Masa de cada rueda         | $m$                 | 0.035 kg                   |
+| Radio de rueda             | $r$                 | 0.0336 m                   |
+| Inercia de la rueda        | $I_{rueda}=0.5mr^2$ | $1.976\times10^{-5}$ kg·m² |
+| Masa del cuerpo            | $M$                 | 0.930 kg                   |
+| Distancia CM al chasis     | $L$                 | 0.0383 m                   |
+| Inercia del cuerpo (pitch) | $J_{centroide}$     | $7.110\times10^{-4}$ kg·m² |
+| Ancho de vía               | $d$                 | 0.1612 m                   |
+| Gravedad                   | $g$                 | 9.8 m/s²                   |
+
 ## Controlador LQR
+
+Para este controlador, aparte de los combios a las constantes $K$ que se mostrarán a continuación, tambien se hicieron cambios a la variable `target_angle_x`, y se agregaron límites mínimo y máximo (clamping) a la posición `x_pose` en el código.
 
 ### Constantes K de fábrica
 
