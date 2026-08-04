@@ -74,7 +74,7 @@ Dado el caso que se trabaje un proyecto de más de 32 kB se puede generar un err
 
 ![QR de descarga de la app](/Control/microROS/appQR.jpeg)
 
-La aplicación oficial para descargar se encuentra en lenguaje chino, a continuación se ve un pantallazo de la pagina principal de la aplicación:
+La aplicación oficial para descargar se encuentra en lenguaje chino, si el celular está configurado en español, a continuación se ve un pantallazo de la pagina principal de la aplicación:
 
 ![appScreenshot](/Control/microROS/appSS.jpeg)
 
@@ -93,6 +93,8 @@ Se tiene tambien otras dos vistas de interés entre la aplicación, para la sint
 
 ![appScreenshot2](/Control/microROS/appSS2_ES.jpeg)
 ![appScreenshot3](/Control/microROS/appSS3_ES.jpeg)
+
+Si el celular está configurado en inglés, la interfaz de la aplicación se verá en inglés.
 
 ## Información adicional previo a diseños
 
